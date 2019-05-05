@@ -6,7 +6,6 @@ MainWindow::MainWindow(QWidget *parent)
     widget = new QWidget();
     widget->setWindowTitle("Post Delivery Logistics");
     widget->setFixedSize(800,512);
-    helpWindow = new HelpWindow();
     showLoginScreen();
 }
 

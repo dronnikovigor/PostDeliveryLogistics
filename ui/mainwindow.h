@@ -3,10 +3,10 @@
 
 #include <QMainWindow>
 
-#include "loginscreen.h"
-#include "adminscreen.h"
-#include "userscreen.h"
-#include "helpwindow.h"
+#include "ui/loginscreen.h"
+#include "ui/adminscreen.h"
+#include "ui/userscreen.h"
+#include "ui/helpwindow.h"
 #include "credentials.h"
 
 class MainWindow : public QMainWindow

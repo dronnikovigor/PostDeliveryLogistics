@@ -26,20 +26,20 @@ CONFIG += c++11
 
 SOURCES += \
         main.cpp \
-        mainwindow.cpp \
-    helpwindow.cpp \
+       ui/mainwindow.cpp \
+    ui/helpwindow.cpp \
     credentials.cpp \
-    loginscreen.cpp \
-    adminscreen.cpp \
-    userscreen.cpp
+    ui/loginscreen.cpp \
+    ui/adminscreen.cpp \
+    ui/userscreen.cpp
 
 HEADERS += \
-        mainwindow.h \
-    helpwindow.h \
+        ui/mainwindow.h \
+    ui/helpwindow.h \
     credentials.h \
-    loginscreen.h \
-    adminscreen.h \
-    userscreen.h
+    ui/loginscreen.h \
+    ui/adminscreen.h \
+    ui/userscreen.h
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin
