@@ -15,11 +15,9 @@ UserScreen::UserScreen(QWidget *widget)
     QLabel *resultLabel = new QLabel("Result:");
     QPushButton *logoutBtn = new QPushButton("Log out");
     QPushButton *getDirBtn = new QPushButton("Get directions");
-    QPushButton *plotBtn = new QPushButton("Plot graph");
 
     logoutBtn->setFixedHeight(45);
     getDirBtn->setFixedHeight(45);
-    plotBtn->setFixedHeight(45);
 
     QFont font = fromCityList->font();
     font.setPointSize(12);
@@ -35,7 +33,6 @@ UserScreen::UserScreen(QWidget *widget)
     resultLabel->setFont(font);
     logoutBtn->setFont(font);
     getDirBtn->setFont(font);
-    plotBtn->setFont(font);
 
     gridLayout->addWidget(fromLabel, 0, 0);
     gridLayout->addWidget(fromCityList, 1, 0, 2, 2);
@@ -49,7 +46,6 @@ UserScreen::UserScreen(QWidget *widget)
     gridLayout->addWidget(getDirBtn, 6, 3);
     gridLayout->addWidget(resultLabel, 0, 4);
     gridLayout->addWidget(resultList, 1, 4, 5, 1);
-    gridLayout->addWidget(plotBtn, 6, 4);
 
     ///TODO: connect btns to func's here
     connect(logoutBtn, SIGNAL(clicked()), this, SIGNAL(logout()));

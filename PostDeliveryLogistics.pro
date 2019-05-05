@@ -31,7 +31,10 @@ SOURCES += \
     credentials.cpp \
     ui/loginscreen.cpp \
     ui/adminscreen.cpp \
-    ui/userscreen.cpp
+    ui/userscreen.cpp \
+    ui/graph/edge.cpp \
+    ui/graph/node.cpp \
+    ui/graph/graphwidget.cpp
 
 HEADERS += \
         ui/mainwindow.h \
@@ -39,7 +42,10 @@ HEADERS += \
     credentials.h \
     ui/loginscreen.h \
     ui/adminscreen.h \
-    ui/userscreen.h
+    ui/userscreen.h \
+    ui/graph/edge.h \
+    ui/graph/node.h \
+    ui/graph/graphwidget.h
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin

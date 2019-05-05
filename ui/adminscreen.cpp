@@ -37,7 +37,7 @@ AdminScreen::AdminScreen(QWidget *widget)
     vertLayout->addItem(new QSpacerItem(0,10, QSizePolicy::Expanding, QSizePolicy::Expanding));
     vertLayout->addWidget(logoutBtn);
     gridLayout->addLayout(vertLayout, 0, 0, 0, 1);
-    gridLayout->addWidget(imgDisplayLabel, 0, 1, 1, 1);
+    gridLayout->addWidget(new GraphWidget(), 0, 1, 1, 1);
 
     ///TODO: connect btns to func's here
     connect(logoutBtn, SIGNAL(clicked()), this, SIGNAL(logout()));

@@ -9,6 +9,8 @@
 #include <QLabel>
 #include <QTextEdit>
 
+#include "ui/graph/graphwidget.h"
+
 class AdminScreen : public QObject
 {
     Q_OBJECT
