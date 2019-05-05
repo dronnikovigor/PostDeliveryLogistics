@@ -2,12 +2,12 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
-#include "QPushButton"
-#include "QGridLayout"
-#include "QVBoxLayout"
-#include "QLabel"
 
+#include "loginscreen.h"
+#include "adminscreen.h"
+#include "userscreen.h"
 #include "helpwindow.h"
+#include "credentials.h"
 
 class MainWindow : public QMainWindow
 {
@@ -17,14 +17,14 @@ public:
     MainWindow(QWidget *parent = 0);
     ~MainWindow();
 
-public slots:
-    void showStartScreen();
+private slots:
+    void showStartScreen(bool adminRights);
     void showLoginScreen();
+
+    void checkCredentials(const QString &login, const QString &pass);
 
 private:
     QWidget *widget;
-
-    HelpWindow *helpWindow;
 };
 
 #endif // MAINWINDOW_H
