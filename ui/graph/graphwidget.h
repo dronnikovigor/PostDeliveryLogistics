@@ -18,7 +18,10 @@ public:
     GraphWidget(QWidget *parent = 0);
 
     void addNewEdge(QString from, QString to);
+    void deleteEdge(QString from, QString to);
+    void deleteVertex(QString vertex);
     void itemMoved();
+    void drawGraph();
 
 protected:
     void keyPressEvent(QKeyEvent *event);
