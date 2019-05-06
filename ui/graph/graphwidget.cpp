@@ -50,6 +50,35 @@ GraphWidget::GraphWidget(QWidget *parent)
     }
 }
 
+void GraphWidget::addNewEdge(QString from, QString to)
+{
+    graph.insert_vertex_pair(from.toInt(), to.toInt());
+
+    scene()->clear();
+
+    typename std::list<Graph<int>::Vertex>::iterator add_nodes_it = graph.begin();
+    for(; add_nodes_it != graph.end(); ++add_nodes_it) {
+        Node *node = new Node(this, QString::number(add_nodes_it->key()));
+        vertices.insert(add_nodes_it->key(), node);
+        scene()->addItem(node);
+    }
+
+    typename std::list<Graph<int>::Vertex>::iterator add_edges_it = graph.begin();
+    for(; add_edges_it != graph.end(); ++add_edges_it) {
+        Node *nodeFrom = vertices.value(add_edges_it->key());
+        typename std::list<Graph<int>::Edge>::const_iterator edge_it = add_edges_it->edges().begin();
+        for(; edge_it != add_edges_it->edges().end(); ++edge_it) {
+            Node *nodeTo = vertices.value(edge_it->m_Edge->key());
+            scene()->addItem(new Edge(nodeFrom, nodeTo));
+            nodeFrom = nodeTo;
+        }
+    }
+
+    for(QMap<Graph<int>::Vertex, Node*>::iterator pos_it=vertices.begin(); pos_it!=vertices.end(); ++pos_it)
+    {
+        pos_it.value()->setPos(rand()%50, rand()%50);
+    }
+}
 void GraphWidget::itemMoved()
 {
     if (!timerId)

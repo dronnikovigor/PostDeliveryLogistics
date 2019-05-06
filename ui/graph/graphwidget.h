@@ -17,6 +17,7 @@ class GraphWidget : public QGraphicsView
 public:
     GraphWidget(QWidget *parent = 0);
 
+    void addNewEdge(QString from, QString to);
     void itemMoved();
 
 protected:

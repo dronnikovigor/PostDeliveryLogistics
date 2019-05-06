@@ -49,8 +49,8 @@ Ui::UserScreen::UserScreen(QWidget *widget)
 
     ///TODO: connect btns to func's here
     connect(logoutBtn, SIGNAL(clicked()), this, SIGNAL(logout()));
-    connect(fromCityList, &QListWidget::itemChanged, this , &UserScreen::handleFromSelectChanged);
-    connect(toCityList, &QListWidget::itemChanged, this , &UserScreen::handleToSelectChanged);
+    connect(fromCityList, &QListWidget::itemClicked, this , &UserScreen::handleFromSelectChanged);
+    connect(toCityList, &QListWidget::itemClicked, this , &UserScreen::handleToSelectChanged);
 
     widget->setLayout(gridLayout);
 }
@@ -62,5 +62,5 @@ void Ui::UserScreen::handleFromSelectChanged(QListWidgetItem *item)
 
 void Ui::UserScreen::handleToSelectChanged(QListWidgetItem *item)
 {
-    fromSelect->setText(item->text());
+    toSelect->setText(item->text());
 }

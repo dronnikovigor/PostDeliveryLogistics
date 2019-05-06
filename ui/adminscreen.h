@@ -8,6 +8,9 @@
 #include <QVBoxLayout>
 #include <QLabel>
 #include <QTextEdit>
+#include <QListWidget>
+#include <QListWidgetItem>
+#include <QDebug>
 
 #include "ui/graph/graphwidget.h"
 
@@ -19,6 +22,19 @@ class AdminScreen : public QObject
 public:
     AdminScreen(QWidget *widget);
 
+private:
+    GraphWidget *graphWidget;
+    QWidget *edgeWidget;
+
+    QString fromCity;
+    QString toCity;
+
+
+private slots:
+    void addNewEdge();
+    void addEdgesToGraph();
+    void handleFromSelectChanged(QListWidgetItem *item);
+    void handleToSelectChanged(QListWidgetItem *item);
 signals:
     void logout();
 };
