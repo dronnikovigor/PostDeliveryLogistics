@@ -14,17 +14,27 @@ int main(int argc, char *argv[])
 
 
     //Graph example usage
-    /*std::vector<std::pair<int, int> > graph_vect;
+    std::vector<std::pair<int, int> > graph_vect;
     for (int i = 0; i < 100; i++) {
         graph_vect.push_back(std::make_pair(rand()%20, rand()%20));
     }
-    Graph<int> test_graph(graph_vect);
+    Graph<int> test_graph;
 
     test_graph.insert_vertex_pair(1,200);
+    test_graph.insert_vertex_pair(1,5);
+    test_graph.insert_vertex_pair(1,6);
+    test_graph.insert_vertex_pair(10,1);
+    test_graph.insert_vertex_pair(11,1);
+    test_graph.insert_vertex_pair(40,200);
+    test_graph.insert_vertex_pair(50,200);
+
     test_graph.print_graph();
 
+    test_graph.remove_vertex(1);
 
-    std::cout << "External iterator example: " << std::endl;
+    test_graph.print_graph();
+
+    /*std::cout << "External iterator example: " << std::endl;
     typename std::list<Graph<int>::Vertex>::iterator print_it = test_graph.begin();
     for(; print_it != test_graph.end(); ++print_it) {
         std::cout << print_it->key();
@@ -34,7 +44,7 @@ int main(int argc, char *argv[])
         }
         std::cout << std::endl;
     }
-    */
+*/
     //
 
     return a.exec();
