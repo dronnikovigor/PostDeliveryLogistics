@@ -5,8 +5,6 @@
 #include <vector>
 #include <list>
 
-using namespace std;
-
 namespace GraphContainer
 {
 
@@ -14,7 +12,8 @@ template <class T>
 class Graph
 {
 public :
-    explicit Graph(const std::vector<std::pair<T, T> > &vertices);
+    Graph();
+    Graph(const std::vector<std::pair<T, T> > &vertices);
     ~Graph(){}
     void insert_vertex_pair(T key1, T key2);
     void print_graph();
@@ -38,6 +37,15 @@ public :
         void connect_edge(Vertex *adjacent);
         const T key() const {return m_Key;}
         const std::list<Edge> &edges() const {return m_Edges;}
+
+        bool operator< (const Vertex &other) const {
+            return key() < other.key();
+        }
+
+        bool operator== (const Vertex &other) const {
+            return key() == other.key();
+        }
+
     private:
         std::list<Edge> m_Edges;
         T m_Key;
@@ -61,6 +69,11 @@ private:
     vertices_type m_Vertices;
     Vertex *contains_vertex(const T key);
 };
+}
+
+template <class T>
+GraphContainer::Graph<T>::Graph()
+{
 }
 
 template <class T>
@@ -95,6 +108,13 @@ template <typename T>
 void GraphContainer::Graph<T>::insert_vertex_pair(T key1, T key2)
 {
     /*!
+   * Check if vertices are simular
+   */
+    if (key1 == key2) {
+        //throw std::runtime_error("Simular Vertices!");
+        return;
+    }
+    /*!
    * Check if vertices already in graph
    */
     Graph<T>::Vertex *insert1 = contains_vertex(key1);
@@ -124,7 +144,7 @@ void GraphContainer::Graph<T>::insert_vertex_pair(T key1, T key2)
    */
     if (insert1 != NULL && insert2 != NULL) {
         insert1->connect_edge(insert2);
-        insert2->connect_edge(insert1);
+        //insert2->connect_edge(insert1);
     } else {
         throw std::runtime_error("Unknown");
     }

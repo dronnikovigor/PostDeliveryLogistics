@@ -14,9 +14,9 @@ int main(int argc, char *argv[])
 
 
     //Graph example usage
-    std::vector<std::pair<int, int> > graph_vect;
+    /*std::vector<std::pair<int, int> > graph_vect;
     for (int i = 0; i < 100; i++) {
-        graph_vect.push_back(make_pair(rand()%20, rand()%20));
+        graph_vect.push_back(std::make_pair(rand()%20, rand()%20));
     }
     Graph<int> test_graph(graph_vect);
 
@@ -34,7 +34,7 @@ int main(int argc, char *argv[])
         }
         std::cout << std::endl;
     }
-
+    */
     //
 
     return a.exec();

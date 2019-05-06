@@ -11,7 +11,7 @@ class QGraphicsSceneMouseEvent;
 class Node : public QGraphicsItem
 {
 public:
-    Node(GraphWidget *graphWidget);
+    Node(GraphWidget *graphWidget, const QString &name);
 
     void addEdge(Edge *edge);
     QList<Edge *> edges() const;
@@ -33,9 +33,10 @@ protected:
     void mouseReleaseEvent(QGraphicsSceneMouseEvent *event);
 
 private:
+    GraphWidget *graph;
+    QString name;
     QList<Edge *> edgeList;
     QPointF newPos;
-    GraphWidget *graph;
 };
 
 #endif

@@ -2,6 +2,11 @@
 #define GRAPHWIDGET_H
 
 #include <QGraphicsView>
+#include <QMap>
+
+#include "graph.h"
+
+using GraphContainer::Graph;
 
 class Node;
 
@@ -24,7 +29,8 @@ protected:
 
 private:
     int timerId;
-    Node *centerNode;
+    QMap<Graph<int>::Vertex, Node*> vertices;
+    Graph<int> graph;
 };
 
 #endif

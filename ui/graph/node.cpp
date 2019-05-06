@@ -7,8 +7,8 @@
 #include "node.h"
 #include "graphwidget.h"
 
-Node::Node(GraphWidget *graphWidget)
-    : graph(graphWidget)
+Node::Node(GraphWidget *graphWidget, const QString &name)
+    : graph(graphWidget), name(name)
 {
     setFlag(ItemIsMovable);
     setFlag(ItemSendsGeometryChanges);
@@ -115,6 +115,13 @@ void Node::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWid
     painter->setBrush(gradient);
     painter->setPen(QPen(Qt::black, 0));
     painter->drawEllipse(-10, -10, 20, 20);
+
+    QRectF textRect(-10, -10, 100, 100);
+    QFont font = painter->font();
+    font.setPointSize(11);
+    painter->setFont(font);
+    painter->setPen(Qt::black);
+    painter->drawText(textRect, name);
 }
 
 QVariant Node::itemChange(GraphicsItemChange change, const QVariant &value)
