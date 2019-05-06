@@ -1,6 +1,6 @@
 #include "loginscreen.h"
 
-LoginScreen::LoginScreen(QWidget *widget)
+Ui::LoginScreen::LoginScreen(QWidget *widget)
 {
     QGridLayout *gridLayout = new QGridLayout();
     QVBoxLayout *vertLayout = new QVBoxLayout();
@@ -36,7 +36,7 @@ LoginScreen::LoginScreen(QWidget *widget)
     widget->setLayout(gridLayout);
 }
 
-void LoginScreen::checkCredentials()
+void Ui::LoginScreen::checkCredentials()
 {
     emit checkCredentialsSignal(loginEdit->toPlainText(), passEdit->toPlainText());
 }

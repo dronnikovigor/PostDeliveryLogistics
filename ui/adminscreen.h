@@ -11,6 +11,8 @@
 
 #include "ui/graph/graphwidget.h"
 
+namespace Ui {
+
 class AdminScreen : public QObject
 {
     Q_OBJECT
@@ -20,5 +22,9 @@ public:
 signals:
     void logout();
 };
+
+}
+
+
 
 #endif // ADMINSCREEN_H

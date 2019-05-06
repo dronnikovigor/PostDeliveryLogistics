@@ -5,6 +5,8 @@
 #include <QLabel>
 #include <QVBoxLayout>
 
+namespace Ui {
+
 class HelpWindow : public QMainWindow
 {
     Q_OBJECT
@@ -19,5 +21,7 @@ public slots:
 private:
      QWidget *widget;
 };
+
+}
 
 #endif // HELPWINDOW_H

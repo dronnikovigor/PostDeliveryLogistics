@@ -9,6 +9,8 @@
 #include "ui/helpwindow.h"
 #include "credentials.h"
 
+namespace Ui {
+
 class MainWindow : public QMainWindow
 {
     Q_OBJECT
@@ -26,5 +28,7 @@ private slots:
 private:
     QWidget *widget;
 };
+
+}
 
 #endif // MAINWINDOW_H

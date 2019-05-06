@@ -1,6 +1,6 @@
 #include "userscreen.h"
 
-UserScreen::UserScreen(QWidget *widget)
+Ui::UserScreen::UserScreen(QWidget *widget)
 {
     QGridLayout *gridLayout = new QGridLayout();
     fromCityList = new QListWidget();
@@ -55,12 +55,12 @@ UserScreen::UserScreen(QWidget *widget)
     widget->setLayout(gridLayout);
 }
 
-void UserScreen::handleFromSelectChanged(QListWidgetItem *item)
+void Ui::UserScreen::handleFromSelectChanged(QListWidgetItem *item)
 {
     fromSelect->setText(item->text());
 }
 
-void UserScreen::handleToSelectChanged(QListWidgetItem *item)
+void Ui::UserScreen::handleToSelectChanged(QListWidgetItem *item)
 {
     fromSelect->setText(item->text());
 }

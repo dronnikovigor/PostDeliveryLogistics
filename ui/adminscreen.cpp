@@ -1,6 +1,6 @@
 #include "adminscreen.h"
 
-AdminScreen::AdminScreen(QWidget *widget)
+Ui::AdminScreen::AdminScreen(QWidget *widget)
 {
     QGridLayout *gridLayout = new QGridLayout();
     QVBoxLayout *vertLayout = new QVBoxLayout();

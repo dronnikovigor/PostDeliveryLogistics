@@ -1,6 +1,6 @@
 #include "mainwindow.h"
 
-MainWindow::MainWindow(QWidget *parent)
+Ui::MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
 {
     widget = new QWidget();
@@ -9,7 +9,7 @@ MainWindow::MainWindow(QWidget *parent)
     showLoginScreen();
 }
 
-void MainWindow::showLoginScreen() {
+void Ui::MainWindow::showLoginScreen() {
     if (widget != nullptr) {
         delete widget;
         widget = nullptr;
@@ -22,7 +22,7 @@ void MainWindow::showLoginScreen() {
     this->setCentralWidget(widget);
 }
 
-void MainWindow::showStartScreen(bool adminRights) {
+void Ui::MainWindow::showStartScreen(bool adminRights) {
     if (widget != nullptr) {
         delete widget;
         widget = nullptr;
@@ -41,7 +41,7 @@ void MainWindow::showStartScreen(bool adminRights) {
     this->setCentralWidget(widget);
 }
 
-void MainWindow::checkCredentials(const QString &login, const QString &pass)
+void Ui::MainWindow::checkCredentials(const QString &login, const QString &pass)
 {
     Credentials credentials(login, pass);
     switch (credentials.checkCredentials()) {
@@ -59,7 +59,7 @@ void MainWindow::checkCredentials(const QString &login, const QString &pass)
     }
 }
 
-MainWindow::~MainWindow()
+Ui::MainWindow::~MainWindow()
 {
     delete widget;
 }

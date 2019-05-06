@@ -10,6 +10,8 @@
 #include <QListWidget>
 #include <QListWidgetItem>
 
+namespace Ui {
+
 class UserScreen : public QObject
 {
     Q_OBJECT
@@ -30,5 +32,7 @@ private:
     QLineEdit *fromSelect;
     QLineEdit *toSelect;
 };
+
+}
 
 #endif // USERSCREEN_H

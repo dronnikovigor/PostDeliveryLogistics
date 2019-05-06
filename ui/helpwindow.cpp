@@ -1,6 +1,6 @@
 #include "helpwindow.h"
 
-HelpWindow::HelpWindow(QWidget *parent) : QMainWindow(parent)
+Ui::HelpWindow::HelpWindow(QWidget *parent) : QMainWindow(parent)
 {    
     QWidget *widget = new QWidget();
     QLabel *text = new QLabel("help here");
@@ -11,7 +11,7 @@ HelpWindow::HelpWindow(QWidget *parent) : QMainWindow(parent)
     this->setCentralWidget(widget);
 }
 
-HelpWindow::~HelpWindow()
+Ui::HelpWindow::~HelpWindow()
 {
     delete widget;
 }

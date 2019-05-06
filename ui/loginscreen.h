@@ -9,6 +9,8 @@
 #include <QLabel>
 #include <QTextEdit>
 
+namespace Ui {
+
 class LoginScreen: public QObject
 {
     Q_OBJECT
@@ -25,5 +27,7 @@ private:
     QTextEdit *loginEdit;
     QTextEdit *passEdit;
 };
+
+}
 
 #endif // LOGINSCREEN_H
