@@ -28,13 +28,14 @@ public :
             m_Edge(edge)
         {}
         Vertex *m_Edge;
-        const T key() const {return m_Edge;}
 
-        bool operator< (const Vertex &other) const {
+        const Vertex &key() const {return *m_Edge;}
+
+        bool operator< (const Edge &other) const {
             return key() < other.key();
         }
 
-        bool operator== (const Vertex &other) const {
+        bool operator== (const Edge &other) const {
             return key() == other.key();
         }
     };
@@ -184,16 +185,29 @@ void GraphContainer::Graph<T>::remove_vertex(T key)
    * if not throw an error.
    */
     if (vertex != NULL) {
+        /*!
+         * Removing edges from vertex
+         */
         typename std::list<Edge>::const_iterator edge_it = vertex->edges().begin();
         for(; edge_it != vertex->edges().end(); ++edge_it) {
             remove_vertex_pair(vertex->key(), edge_it->m_Edge->key());
         }
-        typename std::list<Vertex >::iterator vert_it = m_Vertices.begin();
+        /*!
+         * Removing edges to vertex
+         */
+        typename std::list<Vertex>::iterator vert_it = m_Vertices.begin();
         for(; vert_it != m_Vertices.end(); ++vert_it) {
-            if (vert_it->key() == vertex->key()) {
-                remove_vertex_pair(vert_it->key(), vertex->key());
+            typename std::list<Edge>::const_iterator edge_it = vert_it->edges().begin();
+            for(; edge_it != vert_it->edges().end(); ++edge_it) {
+                if (edge_it->m_Edge->key() == vertex->key()) {
+                    remove_vertex_pair(vert_it->key(), vertex->key());
+                }
             }
         }
+        /*!
+         * Removing vertex
+         */
+        m_Vertices.remove(vertex->key());
     } else {
         throw std::runtime_error("Unknown");
     }
@@ -296,7 +310,7 @@ template <class T>
 bool GraphContainer::Graph<T>::Vertex::contains_edge_to_vertex(const T key)
 {
     typename std::list<Edge>::iterator find_it = m_Edges.begin();
-    for(; find_it != m_Edges.end(); ++find_it) {
+    for(; find_it != edges().end(); ++find_it) {
         if (find_it->m_Edge->key() == key) {
             return true;
         }

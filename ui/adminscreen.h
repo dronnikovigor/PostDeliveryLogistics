@@ -28,13 +28,22 @@ private:
 
     QString fromCity;
     QString toCity;
+    QString vertex;
 
 
 private slots:
     void addNewEdge();
+    void deleteEdge();
+    void deleteVertex();
+
     void addEdgesToGraph();
+    void delEdgeFromGraph();
+    void delVertexFromGraph();
+
     void handleFromSelectChanged(QListWidgetItem *item);
     void handleToSelectChanged(QListWidgetItem *item);
+    void handleVertexSelectChanged(QListWidgetItem *item);
+
 signals:
     void logout();
 };
