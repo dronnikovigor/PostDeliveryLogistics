@@ -71,7 +71,6 @@ void GraphWidget::drawGraph()
         for(; edge_it != add_edges_it->edges().end(); ++edge_it) {
             Node *nodeTo = vertices.value(edge_it->m_Edge->key());
             scene()->addItem(new Edge(nodeFrom, nodeTo));
-            nodeFrom = nodeTo;
         }
     }
 
