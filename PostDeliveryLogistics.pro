@@ -38,6 +38,7 @@ SOURCES += \
 
 HEADERS += \
     graph.h \
+    serialize.h \
         ui/mainwindow.h \
     ui/helpwindow.h \
     credentials.h \

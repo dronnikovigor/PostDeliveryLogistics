@@ -44,6 +44,8 @@ Ui::AdminScreen::AdminScreen(QWidget *widget)
     connect(addEdgeBtn, SIGNAL(clicked()), this, SLOT(addNewEdge()));
     connect(delCityBtn, SIGNAL(clicked()), this, SLOT(deleteVertex()));
     connect(delEdgeBtn, SIGNAL(clicked()), this, SLOT(deleteEdge()));
+    connect(importCitiesBtn, SIGNAL(clicked()), graphWidget, SLOT(importFromFileAndDraw()));
+    connect(exportCitiesBtn, SIGNAL(clicked()), graphWidget, SLOT(exportToFile()));
     connect(logoutBtn, SIGNAL(clicked()), this, SIGNAL(logout()));
 
     widget->setLayout(gridLayout);
@@ -68,15 +70,11 @@ void Ui::AdminScreen::addNewEdge()
     toCityList->setFont(font);
     selectBtn->setFont(font);
 
-    /*temp*/
-    fromCityList->addItem("1");
-    fromCityList->addItem("4");
-    fromCityList->addItem("5");
-
-    toCityList->addItem("10");
-    toCityList->addItem("40");
-    toCityList->addItem("50");
-    /**/
+    std::list<int> stdListInt = graphWidget->getVertices();
+    for (int it: stdListInt) {
+        fromCityList->addItem(QString::number(it));
+        toCityList->addItem(QString::number(it));
+    }
 
     gridLayout->addWidget(fromLabel, 0, 0);
     gridLayout->addWidget(fromCityList, 1, 0, 2, 2);
@@ -111,15 +109,11 @@ void Ui::AdminScreen::deleteEdge()
     toCityList->setFont(font);
     selectBtn->setFont(font);
 
-    /*temp*/
-    fromCityList->addItem("1");
-    fromCityList->addItem("4");
-    fromCityList->addItem("5");
-
-    toCityList->addItem("10");
-    toCityList->addItem("40");
-    toCityList->addItem("50");
-    /**/
+    std::list<int> stdListInt = graphWidget->getVertices();
+    for (int it: stdListInt) {
+        fromCityList->addItem(QString::number(it));
+        toCityList->addItem(QString::number(it));
+    }
 
     gridLayout->addWidget(fromLabel, 0, 0);
     gridLayout->addWidget(fromCityList, 1, 0, 2, 2);
@@ -150,14 +144,10 @@ void Ui::AdminScreen::deleteVertex()
     vertexList->setFont(font);
     selectBtn->setFont(font);
 
-    /*temp*/
-    vertexList->addItem("1");
-    vertexList->addItem("4");
-    vertexList->addItem("5");
-    vertexList->addItem("10");
-    vertexList->addItem("40");
-    vertexList->addItem("50");
-    /**/
+    std::list<int> stdListInt = graphWidget->getVertices();
+    for (int it: stdListInt) {
+        vertexList->addItem(QString::number(it));
+    }
 
     gridLayout->addWidget(fromLabel, 0, 0);
     gridLayout->addWidget(vertexList, 1, 0, 2, 2);
@@ -187,7 +177,9 @@ void Ui::AdminScreen::handleVertexSelectChanged(QListWidgetItem *item)
 
 void Ui::AdminScreen::addEdgesToGraph()
 {
+    std::cout<<"addEdgesToGraph()";
     if (fromCity != "" && toCity != "" && fromCity != toCity){
+        std::cout<<"addEdgesToGraph()";
         graphWidget->addNewEdge(fromCity, toCity);
         edgeWidget->close();
         edgeWidget->deleteLater();

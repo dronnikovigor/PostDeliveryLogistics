@@ -2,6 +2,7 @@
 #include <QApplication>
 
 #include "graph.h"
+#include "serialize.h"
 
 using Ui::MainWindow;
 using GraphContainer::Graph;
@@ -17,8 +18,8 @@ int main(int argc, char *argv[])
     /*std::vector<std::pair<int, int> > graph_vect;
     for (int i = 0; i < 100; i++) {
         graph_vect.push_back(std::make_pair(rand()%20, rand()%20));
-    }
-    Graph<int> test_graph;
+    }*/
+    /*Graph<int> test_graph;
 
     test_graph.insert_vertex_pair(1,200);
     test_graph.insert_vertex_pair(1,5);
@@ -29,7 +30,12 @@ int main(int argc, char *argv[])
     test_graph.insert_vertex_pair(50,200);
 
     test_graph.print_graph();
-
+    Serializer::Serialize<int> *serialize = new Serializer::Serialize<int>();
+    serialize->exportToJson(test_graph);
+    serialize->importFromJson();
+    Graph<int> new_graph(serialize->getEdges());
+    new_graph.print_graph();
+    /*
     test_graph.remove_vertex(1);
 
     test_graph.print_graph();

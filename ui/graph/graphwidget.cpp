@@ -21,36 +21,34 @@ GraphWidget::GraphWidget(QWidget *parent)
     adjustSize();
     setMinimumSize(400, 400);
 
-    for (int i = 0; i < 10; i++) {
-        graph.insert_vertex_pair(rand()%20, rand()%20);
-    }
-
-    graph.print_graph();
-
+    importFromFile();
     drawGraph();
 }
 
 void GraphWidget::addNewEdge(QString from, QString to)
 {
     graph.insert_vertex_pair(from.toInt(), to.toInt());
-
-    scene()->clear();
-
+    serializer.exportToJson(graph);
     drawGraph();
 }
 
 void GraphWidget::deleteEdge(QString from, QString to)
 {
     graph.remove_vertex_pair(from.toInt(), to.toInt());
-
+    serializer.exportToJson(graph);
     drawGraph();
 }
 
 void GraphWidget::deleteVertex(QString vertex)
 {
     graph.remove_vertex(vertex.toInt());
-
+    serializer.exportToJson(graph);
     drawGraph();
+}
+
+std::list<int> GraphWidget::getVertices()
+{
+    return serializer.getVertices();
 }
 
 void GraphWidget::drawGraph()
@@ -78,6 +76,29 @@ void GraphWidget::drawGraph()
     {
         pos_it.value()->setPos(rand()%50, rand()%50);
     }
+}
+
+void GraphWidget::exportToFile()
+{
+    serializer.exportToJson(graph);
+    QMessageBox::information(this, "Done!", "Export done.", QMessageBox::Ok, 0);
+}
+
+void GraphWidget::importFromFile()
+{
+    serializer.importFromJson();
+    graph.clear();
+    std::vector<std::pair<int, int>> edges = serializer.getEdges();
+    typename std::vector<std::pair<int, int> >::const_iterator insert_it = edges.begin();
+    for(; insert_it != edges.end(); ++insert_it) {
+        graph.insert_vertex_pair(insert_it->first, insert_it->second);
+    }
+}
+
+void GraphWidget::importFromFileAndDraw()
+{
+    importFromFile();
+    drawGraph();
 }
 
 void GraphWidget::itemMoved()

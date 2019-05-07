@@ -19,6 +19,7 @@ public :
     void remove_vertex_pair(T key1, T key2);
     void remove_vertex(T key);
     void print_graph();
+    void clear();
 
     class Vertex;
 
@@ -92,24 +93,10 @@ GraphContainer::Graph<T>::Graph()
 template <class T>
 GraphContainer::Graph<T>::Graph(const std::vector<std::pair<T, T> > &vertices_relation)
 {
-#ifndef NDEBUG
-    std::cout << "Inserting pairs: " << std::endl;
-#endif
-
     typename std::vector<std::pair<T, T> >::const_iterator insert_it = vertices_relation.begin();
     for(; insert_it != vertices_relation.end(); ++insert_it) {
-
-#ifndef NDEBUG
-        std::cout << insert_it->first << " -- > " << insert_it->second <<
-                     std::endl;
-#endif
-
         insert_vertex_pair(insert_it->first, insert_it->second);
     }
-
-#ifndef NDEBUG
-    print_graph();
-#endif
 }
 
 /*!
@@ -150,13 +137,17 @@ void GraphContainer::Graph<T>::insert_vertex_pair(T key1, T key2)
     assert(insert1 != NULL && "Failed to insert first vertex");
     assert(insert2 != NULL && "Failed to insert second vertex");
 #endif
-
     /*!
    * At this point we should have a Vertex to insert an edge on
    * if not throw an error.
    */
     if (insert1 != NULL && insert2 != NULL) {
         insert1->connect_edge(insert2);
+
+#ifndef NDEBUG
+        std::cout <<"Inserting pair: " <<  insert1->key() << " -- > " << insert2->key() <<
+                     std::endl;
+#endif
         //insert2->connect_edge(insert1);
     } else {
         throw std::runtime_error("Unknown");
@@ -331,6 +322,12 @@ void GraphContainer::Graph<T>::print_graph()
         }
         std::cout << std::endl;
     }
+}
+
+template <typename T>
+void GraphContainer::Graph<T>::clear()
+{
+    m_Vertices.clear();
 }
 
 #endif // GRAPH_H

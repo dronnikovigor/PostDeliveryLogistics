@@ -3,10 +3,13 @@
 
 #include <QGraphicsView>
 #include <QMap>
+#include <QMessageBox>
 
 #include "graph.h"
+#include "serialize.h"
 
 using GraphContainer::Graph;
+using Serializer::Serialize;
 
 class Node;
 
@@ -22,6 +25,12 @@ public:
     void deleteVertex(QString vertex);
     void itemMoved();
     void drawGraph();
+    std::list<int> getVertices();
+
+public slots:
+    void exportToFile();
+    void importFromFile();
+    void importFromFileAndDraw();
 
 protected:
     void keyPressEvent(QKeyEvent *event);
@@ -35,6 +44,8 @@ private:
     int timerId;
     QMap<Graph<int>::Vertex, Node*> vertices;
     Graph<int> graph;
+
+    Serialize<int> serializer;
 };
 
 #endif
