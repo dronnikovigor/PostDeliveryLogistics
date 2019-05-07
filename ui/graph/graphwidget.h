@@ -20,9 +20,10 @@ class GraphWidget : public QGraphicsView
 public:
     GraphWidget(QWidget *parent = 0);
 
+    void addNewVertex(const QString &newVertex);
     void addNewEdge(QString from, QString to);
-    void deleteEdge(QString from, QString to);
     void deleteVertex(QString vertex);
+    void deleteEdge(QString from, QString to);
     void itemMoved();
     void drawGraph();
     std::list<int> getVertices();

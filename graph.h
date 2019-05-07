@@ -15,9 +15,10 @@ public :
     Graph();
     Graph(const std::vector<std::pair<T, T> > &vertices);
     ~Graph(){}
+    void insert_vertex(T key);
+    void remove_vertex(T key);
     void insert_vertex_pair(T key1, T key2);
     void remove_vertex_pair(T key1, T key2);
-    void remove_vertex(T key);
     void print_graph();
     void clear();
 
@@ -96,6 +97,36 @@ GraphContainer::Graph<T>::Graph(const std::vector<std::pair<T, T> > &vertices_re
     typename std::vector<std::pair<T, T> >::const_iterator insert_it = vertices_relation.begin();
     for(; insert_it != vertices_relation.end(); ++insert_it) {
         insert_vertex_pair(insert_it->first, insert_it->second);
+    }
+}
+
+/*!
+ * Takes in a value of type T as a key and
+ * inserts it into graph data structure if
+ * key not already present
+ */
+template <typename T>
+void GraphContainer::Graph<T>::insert_vertex(T key)
+{
+    /*!
+   * Check if vertex already in graph
+   */
+    Graph<T>::Vertex *insert = contains_vertex(key);
+    /*!
+   * If not in graph then insert it and get a pointer to it
+   * to pass into edge. See () for information on how
+   * to build graph
+   */
+    if (insert == NULL) {
+        m_Vertices.push_back(Vertex(key));
+        insert = contains_vertex(key);
+    }
+    /*!
+   * At this point we should have a Vertex in graph
+   * if not throw an error.
+   */
+    if (insert == NULL) {
+        throw std::runtime_error("Unknown");
     }
 }
 

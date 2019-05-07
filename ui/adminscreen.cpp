@@ -6,6 +6,7 @@ Ui::AdminScreen::AdminScreen(QWidget *widget)
 
     QGridLayout *gridLayout = new QGridLayout();
     QVBoxLayout *vertLayout = new QVBoxLayout();
+    QPushButton *addCityBtn = new QPushButton("Add new city");
     QPushButton *addEdgeBtn = new QPushButton("Add new edge");
     QPushButton *delCityBtn = new QPushButton("Delete city");
     QPushButton *delEdgeBtn = new QPushButton("Delete edge");
@@ -13,6 +14,7 @@ Ui::AdminScreen::AdminScreen(QWidget *widget)
     QPushButton *exportCitiesBtn = new QPushButton("Export cities to file");
     QPushButton *logoutBtn = new QPushButton("Log out");
 
+    addCityBtn->setFixedHeight(45);
     addEdgeBtn->setFixedHeight(45);
     delCityBtn->setFixedHeight(45);
     delEdgeBtn->setFixedHeight(45);
@@ -20,8 +22,9 @@ Ui::AdminScreen::AdminScreen(QWidget *widget)
     exportCitiesBtn->setFixedHeight(45);
     logoutBtn->setFixedHeight(45);
 
-    QFont font = addEdgeBtn->font();
+    QFont font = addCityBtn->font();
     font.setPointSize(12);
+    addCityBtn->setFont(font);
     addEdgeBtn->setFont(font);
     delCityBtn->setFont(font);
     delEdgeBtn->setFont(font);
@@ -30,6 +33,7 @@ Ui::AdminScreen::AdminScreen(QWidget *widget)
     logoutBtn->setFont(font);
 
     vertLayout->addItem(new QSpacerItem(0,10, QSizePolicy::Expanding, QSizePolicy::Expanding));
+    vertLayout->addWidget(addCityBtn);
     vertLayout->addWidget(addEdgeBtn);
     vertLayout->addWidget(delCityBtn);
     vertLayout->addWidget(delEdgeBtn);
@@ -40,7 +44,7 @@ Ui::AdminScreen::AdminScreen(QWidget *widget)
     gridLayout->addLayout(vertLayout, 0, 0, 0, 1);
     gridLayout->addWidget(graphWidget, 0, 1, 1, 1);
 
-    ///TODO: connect btns to func's here
+    connect(addCityBtn, SIGNAL(clicked()), this, SLOT(addNewCity()));
     connect(addEdgeBtn, SIGNAL(clicked()), this, SLOT(addNewEdge()));
     connect(delCityBtn, SIGNAL(clicked()), this, SLOT(deleteVertex()));
     connect(delEdgeBtn, SIGNAL(clicked()), this, SLOT(deleteEdge()));
@@ -49,6 +53,32 @@ Ui::AdminScreen::AdminScreen(QWidget *widget)
     connect(logoutBtn, SIGNAL(clicked()), this, SIGNAL(logout()));
 
     widget->setLayout(gridLayout);
+}
+
+void Ui::AdminScreen::addNewCity()
+{
+    edgeWidget = new QWidget();
+    QGridLayout *gridLayout = new QGridLayout();
+    QLabel *label = new QLabel("New city:");
+    QLineEdit *city = new QLineEdit();
+    QPushButton *selectBtn = new QPushButton("Add city");
+    selectBtn->setFixedHeight(45);
+
+    QFont font = label->font();
+    font.setPointSize(12);
+    label->setFont(font);
+    city->setFont(font);
+    selectBtn->setFont(font);
+
+    gridLayout->addWidget(label, 0, 0);
+    gridLayout->addWidget(city, 1, 0);
+    gridLayout->addWidget(selectBtn, 2, 0);
+
+    edgeWidget->setLayout(gridLayout);
+    edgeWidget->show();
+
+    connect(city, &QLineEdit::textChanged, this , &AdminScreen::handleNewCityChanged);
+    connect(selectBtn, SIGNAL(clicked()), this, SLOT(addVertexToGraph()));
 }
 
 void Ui::AdminScreen::addNewEdge()
@@ -157,7 +187,12 @@ void Ui::AdminScreen::deleteVertex()
     edgeWidget->show();
 
     connect(vertexList, &QListWidget::itemClicked, this , &AdminScreen::handleVertexSelectChanged);
-    connect(selectBtn, SIGNAL(clicked()), this, SLOT(delVertexFromGraph()));
+    connect(selectBtn, SIGNAL(clicked()), this, SLOT(addVertexToGraph()));
+}
+
+void Ui::AdminScreen::handleNewCityChanged(const QString &item)
+{
+    newCity = item;
 }
 
 void Ui::AdminScreen::handleFromSelectChanged(QListWidgetItem *item)
@@ -175,11 +210,18 @@ void Ui::AdminScreen::handleVertexSelectChanged(QListWidgetItem *item)
     vertex = item->text();
 }
 
+void Ui::AdminScreen::addVertexToGraph()
+{
+    if (newCity != ""){
+        graphWidget->addNewVertex(newCity);
+        edgeWidget->close();
+        edgeWidget->deleteLater();
+    }
+}
+
 void Ui::AdminScreen::addEdgesToGraph()
 {
-    std::cout<<"addEdgesToGraph()";
     if (fromCity != "" && toCity != "" && fromCity != toCity){
-        std::cout<<"addEdgesToGraph()";
         graphWidget->addNewEdge(fromCity, toCity);
         edgeWidget->close();
         edgeWidget->deleteLater();

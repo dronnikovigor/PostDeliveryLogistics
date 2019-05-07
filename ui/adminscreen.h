@@ -11,6 +11,7 @@
 #include <QListWidget>
 #include <QListWidgetItem>
 #include <QDebug>
+#include <QLineEdit>
 
 #include "ui/graph/graphwidget.h"
 
@@ -29,13 +30,16 @@ private:
     QString fromCity;
     QString toCity;
     QString vertex;
+    QString newCity;
 
 
 private slots:
+    void addNewCity();
     void addNewEdge();
     void deleteEdge();
     void deleteVertex();
 
+    void addVertexToGraph();
     void addEdgesToGraph();
     void delEdgeFromGraph();
     void delVertexFromGraph();
@@ -43,6 +47,7 @@ private slots:
     void handleFromSelectChanged(QListWidgetItem *item);
     void handleToSelectChanged(QListWidgetItem *item);
     void handleVertexSelectChanged(QListWidgetItem *item);
+    void handleNewCityChanged(const QString &item);
 
 signals:
     void logout();

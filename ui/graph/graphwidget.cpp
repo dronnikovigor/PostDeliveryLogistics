@@ -25,6 +25,13 @@ GraphWidget::GraphWidget(QWidget *parent)
     drawGraph();
 }
 
+void GraphWidget::addNewVertex(const QString &newVertex)
+{
+    graph.insert_vertex(newVertex.toInt());
+    serializer.exportToJson(graph);
+    drawGraph();
+}
+
 void GraphWidget::addNewEdge(QString from, QString to)
 {
     graph.insert_vertex_pair(from.toInt(), to.toInt());
@@ -88,10 +95,13 @@ void GraphWidget::importFromFile()
 {
     serializer.importFromJson();
     graph.clear();
+    std::list<int> vertices = serializer.getVertices();
     std::vector<std::pair<int, int>> edges = serializer.getEdges();
-    typename std::vector<std::pair<int, int> >::const_iterator insert_it = edges.begin();
-    for(; insert_it != edges.end(); ++insert_it) {
-        graph.insert_vertex_pair(insert_it->first, insert_it->second);
+    for (int it: vertices) {
+        graph.insert_vertex(it);
+    }
+    for (std::pair<int, int> it: edges) {
+        graph.insert_vertex_pair(it.first, it.second);
     }
 }
 
