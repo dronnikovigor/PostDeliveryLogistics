@@ -8,7 +8,7 @@
 static const double Pi = 3.14159265358979323846264338327950288419717;
 static double TwoPi = 2.0 * Pi;
 
-Edge::Edge(Node *sourceNode, Node *destNode)
+GraphWidgetUi::Edge::Edge(Node *sourceNode, Node *destNode)
     : arrowSize(10)
 {
     setAcceptedMouseButtons(0);
@@ -19,17 +19,17 @@ Edge::Edge(Node *sourceNode, Node *destNode)
     adjust();
 }
 
-Node *Edge::sourceNode() const
+GraphWidgetUi::Node *GraphWidgetUi::Edge::sourceNode() const
 {
     return source;
 }
 
-Node *Edge::destNode() const
+GraphWidgetUi::Node *GraphWidgetUi::Edge::destNode() const
 {
     return dest;
 }
 
-void Edge::adjust()
+void GraphWidgetUi::Edge::adjust()
 {
     if (!source || !dest)
         return;
@@ -48,7 +48,7 @@ void Edge::adjust()
     }
 }
 
-QRectF Edge::boundingRect() const
+QRectF GraphWidgetUi::Edge::boundingRect() const
 {
     if (!source || !dest)
         return QRectF();
@@ -62,7 +62,7 @@ QRectF Edge::boundingRect() const
             .adjusted(-extra, -extra, extra, extra);
 }
 
-void Edge::paint(QPainter *painter, const QStyleOptionGraphicsItem *, QWidget *)
+void GraphWidgetUi::Edge::paint(QPainter *painter, const QStyleOptionGraphicsItem *, QWidget *)
 {
     if (!source || !dest)
         return;

@@ -45,7 +45,7 @@ void Serializer::Serialize<T>::exportToJson(GraphContainer::Graph<T> graph)
     typename std::list<typename Graph<T>::Vertex>::iterator graph_it = graph.begin();
     for(; graph_it != graph.end(); ++graph_it) {
         vertices.push_back(graph_it->key());
-        typename std::list<Graph<int>::Edge>::const_iterator edge_it = graph_it->edges().begin();
+        typename std::list<typename Graph<T>::Edge>::const_iterator edge_it = graph_it->edges().begin();
         for(; edge_it != graph_it->edges().end(); ++edge_it) {
             edges.push_back(std::make_pair(graph_it->key(), edge_it->m_Edge->key()));
         }
@@ -57,14 +57,14 @@ void Serializer::Serialize<T>::exportToJson(GraphContainer::Graph<T> graph)
 
     for (T it: vertices) {
         QJsonObject obj;
-        obj["vertex"] = it;
+        obj["vertex"] = QString::fromStdString(it); //not template thing! temporary solution
         jVertices.push_back(obj);
     }
 
     for (std::pair<T, T> it: edges) {
         QJsonObject obj;
-        obj["from"] = it.first;
-        obj["to"] = it.second;
+        obj["from"] = QString::fromStdString(it.first); //not template thing! temporary solution
+        obj["to"] = QString::fromStdString(it.second); //not template thing! temporary solution
         jEdges.push_back(obj);
     }
 
@@ -106,17 +106,17 @@ void Serializer::Serialize<T>::importFromJson()
     QString propertyVertex;
     foreach (const QJsonValue &value, jVertices) {
         QJsonObject obj = value.toObject();
-        propertyVertex = QString::number(obj["vertex"].toDouble());
-        vertices.push_back(propertyVertex.toInt());
+        propertyVertex = obj["vertex"].toString();
+        vertices.push_back(propertyVertex.toStdString());
     }
 
     QString propertyFrom;
     QString propertyTo;
     foreach (const QJsonValue &value, jEdges) {
         QJsonObject obj = value.toObject();
-        propertyFrom = QString::number(obj["from"].toDouble());
-        propertyTo = QString::number(obj["to"].toDouble());
-        edges.push_back(std::make_pair(propertyFrom.toInt(), propertyTo.toInt()));
+        propertyFrom = obj["from"].toString();
+        propertyTo = obj["to"].toString();
+        edges.push_back(std::make_pair(propertyFrom.toStdString(), propertyTo.toStdString()));
     }
 }
 

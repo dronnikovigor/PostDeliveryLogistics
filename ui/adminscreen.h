@@ -24,7 +24,7 @@ public:
     AdminScreen(QWidget *widget);
 
 private:
-    GraphWidget *graphWidget;
+    GraphWidgetUi::GraphWidget *graphWidget;
     QWidget *edgeWidget;
 
     QString fromCity;

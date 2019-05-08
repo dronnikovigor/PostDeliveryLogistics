@@ -2,7 +2,7 @@
 
 Ui::AdminScreen::AdminScreen(QWidget *widget)
 {
-    graphWidget = new GraphWidget();
+    graphWidget = new GraphWidgetUi::GraphWidget();
 
     QGridLayout *gridLayout = new QGridLayout();
     QVBoxLayout *vertLayout = new QVBoxLayout();
@@ -100,10 +100,10 @@ void Ui::AdminScreen::addNewEdge()
     toCityList->setFont(font);
     selectBtn->setFont(font);
 
-    std::list<int> stdListInt = graphWidget->getVertices();
-    for (int it: stdListInt) {
-        fromCityList->addItem(QString::number(it));
-        toCityList->addItem(QString::number(it));
+    std::list<std::string> stdListString = graphWidget->getVertices();
+    for (std::string it: stdListString) {
+        fromCityList->addItem(QString::fromStdString(it));
+        toCityList->addItem(QString::fromStdString(it));
     }
 
     gridLayout->addWidget(fromLabel, 0, 0);
@@ -139,10 +139,10 @@ void Ui::AdminScreen::deleteEdge()
     toCityList->setFont(font);
     selectBtn->setFont(font);
 
-    std::list<int> stdListInt = graphWidget->getVertices();
-    for (int it: stdListInt) {
-        fromCityList->addItem(QString::number(it));
-        toCityList->addItem(QString::number(it));
+    std::list<std::string> stdListString = graphWidget->getVertices();
+    for (std::string it: stdListString) {
+        fromCityList->addItem(QString::fromStdString(it));
+        toCityList->addItem(QString::fromStdString(it));
     }
 
     gridLayout->addWidget(fromLabel, 0, 0);
@@ -174,9 +174,9 @@ void Ui::AdminScreen::deleteVertex()
     vertexList->setFont(font);
     selectBtn->setFont(font);
 
-    std::list<int> stdListInt = graphWidget->getVertices();
-    for (int it: stdListInt) {
-        vertexList->addItem(QString::number(it));
+    std::list<std::string> stdListString = graphWidget->getVertices();
+    for (std::string it: stdListString) {
+        vertexList->addItem(QString::fromStdString(it));
     }
 
     gridLayout->addWidget(fromLabel, 0, 0);
@@ -187,7 +187,7 @@ void Ui::AdminScreen::deleteVertex()
     edgeWidget->show();
 
     connect(vertexList, &QListWidget::itemClicked, this , &AdminScreen::handleVertexSelectChanged);
-    connect(selectBtn, SIGNAL(clicked()), this, SLOT(addVertexToGraph()));
+    connect(selectBtn, SIGNAL(clicked()), this, SLOT(delVertexFromGraph()));
 }
 
 void Ui::AdminScreen::handleNewCityChanged(const QString &item)

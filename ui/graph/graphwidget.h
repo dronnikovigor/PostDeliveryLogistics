@@ -11,6 +11,7 @@
 using GraphContainer::Graph;
 using Serializer::Serialize;
 
+namespace GraphWidgetUi {
 class Node;
 
 class GraphWidget : public QGraphicsView
@@ -21,12 +22,12 @@ public:
     GraphWidget(QWidget *parent = 0);
 
     void addNewVertex(const QString &newVertex);
-    void addNewEdge(QString from, QString to);
-    void deleteVertex(QString vertex);
-    void deleteEdge(QString from, QString to);
+    void addNewEdge(const QString &from, const QString &to);
+    void deleteVertex(const QString &vertex);
+    void deleteEdge(const QString &from, const QString &to);
     void itemMoved();
     void drawGraph();
-    std::list<int> getVertices();
+    std::list<std::string> getVertices();
 
 public slots:
     void exportToFile();
@@ -43,10 +44,11 @@ protected:
 
 private:
     int timerId;
-    QMap<Graph<int>::Vertex, Node*> vertices;
-    Graph<int> graph;
+    QMap<Graph<std::string>::Vertex, Node*> vertices;
+    Graph<std::string> graph;
 
-    Serialize<int> serializer;
+    Serialize<std::string> serializer;
 };
+}
 
 #endif

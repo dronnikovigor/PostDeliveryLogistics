@@ -7,7 +7,7 @@
 #include "node.h"
 #include "graphwidget.h"
 
-Node::Node(GraphWidget *graphWidget, const QString &name)
+GraphWidgetUi::Node::Node(GraphWidget *graphWidget, const QString &name)
     : graph(graphWidget), name(name)
 {
     setFlag(ItemIsMovable);
@@ -16,18 +16,18 @@ Node::Node(GraphWidget *graphWidget, const QString &name)
     setZValue(-1);
 }
 
-void Node::addEdge(Edge *edge)
+void GraphWidgetUi::Node::addEdge(Edge *edge)
 {
     edgeList << edge;
     edge->adjust();
 }
 
-QList<Edge *> Node::edges() const
+QList<GraphWidgetUi::Edge *> GraphWidgetUi::Node::edges() const
 {
     return edgeList;
 }
 
-void Node::calculateForces()
+void GraphWidgetUi::Node::calculateForces()
 {
     if (!scene() || scene()->mouseGrabberItem() == this) {
         newPos = pos();
@@ -73,7 +73,7 @@ void Node::calculateForces()
     newPos.setY(qMin(qMax(newPos.y(), sceneRect.top() + 10), sceneRect.bottom() - 10));
 }
 
-bool Node::advance()
+bool GraphWidgetUi::Node::advance()
 {
     if (newPos == pos())
         return false;
@@ -82,21 +82,21 @@ bool Node::advance()
     return true;
 }
 
-QRectF Node::boundingRect() const
+QRectF GraphWidgetUi::Node::boundingRect() const
 {
     qreal adjust = 2;
     return QRectF(-10 - adjust, -10 - adjust,
                   23 + adjust, 23 + adjust);
 }
 
-QPainterPath Node::shape() const
+QPainterPath GraphWidgetUi::Node::shape() const
 {
     QPainterPath path;
     path.addEllipse(-10, -10, 20, 20);
     return path;
 }
 
-void Node::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *)
+void GraphWidgetUi::Node::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *)
 {
     painter->setPen(Qt::NoPen);
     painter->setBrush(Qt::darkGray);
@@ -124,7 +124,7 @@ void Node::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWid
     painter->drawText(textRect, name);
 }
 
-QVariant Node::itemChange(GraphicsItemChange change, const QVariant &value)
+QVariant GraphWidgetUi::Node::itemChange(GraphicsItemChange change, const QVariant &value)
 {
     switch (change) {
     case ItemPositionHasChanged:
@@ -139,13 +139,13 @@ QVariant Node::itemChange(GraphicsItemChange change, const QVariant &value)
     return QGraphicsItem::itemChange(change, value);
 }
 
-void Node::mousePressEvent(QGraphicsSceneMouseEvent *event)
+void GraphWidgetUi::Node::mousePressEvent(QGraphicsSceneMouseEvent *event)
 {
     update();
     QGraphicsItem::mousePressEvent(event);
 }
 
-void Node::mouseReleaseEvent(QGraphicsSceneMouseEvent *event)
+void GraphWidgetUi::Node::mouseReleaseEvent(QGraphicsSceneMouseEvent *event)
 {
     update();
     QGraphicsItem::mouseReleaseEvent(event);

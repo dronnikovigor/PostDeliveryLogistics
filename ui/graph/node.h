@@ -4,9 +4,12 @@
 #include <QGraphicsItem>
 #include <QList>
 
+class QGraphicsSceneMouseEvent;
+
+namespace GraphWidgetUi {
+
 class Edge;
 class GraphWidget;
-class QGraphicsSceneMouseEvent;
 
 class Node : public QGraphicsItem
 {
@@ -38,5 +41,8 @@ private:
     QList<Edge *> edgeList;
     QPointF newPos;
 };
+}
+
+
 
 #endif

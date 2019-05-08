@@ -3,6 +3,8 @@
 
 #include <QGraphicsItem>
 
+namespace GraphWidgetUi {
+
 class Node;
 
 class Edge : public QGraphicsItem
@@ -29,5 +31,7 @@ private:
     QPointF destPoint;
     qreal arrowSize;
 };
+}
+
 
 #endif
