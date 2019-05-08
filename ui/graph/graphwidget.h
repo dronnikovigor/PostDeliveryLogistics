@@ -46,8 +46,6 @@ private:
     int timerId;
     QMap<Graph<std::string>::Vertex, Node*> vertices;
     Graph<std::string> graph;
-
-    Serialize<std::string> serializer;
 };
 }
 

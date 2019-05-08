@@ -8,6 +8,7 @@
 #include <QFile>
 #include <QDebug>
 
+#include "singleton.h"
 #include "graph.h"
 
 using GraphContainer::Graph;
@@ -16,16 +17,17 @@ namespace Serializer
 {
 
 template <class T>
-class Serialize
+class Serialize:public Singleton<Serialize<T>>
 {
 public:
-    Serialize();
     void exportToJson(GraphContainer::Graph<T> graph);
     void importFromJson();
     std::vector<std::pair<T, T>> getEdges();
     std::list<T> getVertices();
 
 private:
+    friend class Singleton<Serialize<T>>;
+    Serialize();
     std::vector<std::pair<T, T>> edges;
     std::list<T> vertices;
 };
@@ -34,7 +36,6 @@ private:
 template <class T>
 Serializer::Serialize<T>::Serialize()
 {
-
 }
 
 template <class T>

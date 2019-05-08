@@ -28,34 +28,34 @@ GraphWidgetUi::GraphWidget::GraphWidget(QWidget *parent)
 void GraphWidgetUi::GraphWidget::addNewVertex(const QString &newVertex)
 {
     graph.insert_vertex(newVertex.toStdString());
-    serializer.exportToJson(graph);
+    Serialize<std::string>::getInstance().exportToJson(graph);
     drawGraph();
 }
 
 void GraphWidgetUi::GraphWidget::addNewEdge(const QString &from, const QString &to)
 {
     graph.insert_vertex_pair(from.toStdString(), to.toStdString());
-    serializer.exportToJson(graph);
+    Serialize<std::string>::getInstance().exportToJson(graph);
     drawGraph();
 }
 
 void GraphWidgetUi::GraphWidget::deleteEdge(const QString &from, const QString &to)
 {
     graph.remove_vertex_pair(from.toStdString(), to.toStdString());
-    serializer.exportToJson(graph);
+    Serialize<std::string>::getInstance().exportToJson(graph);
     drawGraph();
 }
 
 void GraphWidgetUi::GraphWidget::deleteVertex(const QString &vertex)
 {
     graph.remove_vertex(vertex.toStdString());
-    serializer.exportToJson(graph);
+    Serialize<std::string>::getInstance().exportToJson(graph);
     drawGraph();
 }
 
 std::list<std::string> GraphWidgetUi::GraphWidget::getVertices()
 {
-    return serializer.getVertices();
+    return Serialize<std::string>::getInstance().getVertices();
 }
 
 void GraphWidgetUi::GraphWidget::drawGraph()
@@ -87,16 +87,16 @@ void GraphWidgetUi::GraphWidget::drawGraph()
 
 void GraphWidgetUi::GraphWidget::exportToFile()
 {
-    serializer.exportToJson(graph);
+    Serialize<std::string>::getInstance().exportToJson(graph);
     QMessageBox::information(this, "Done!", "Export done.", QMessageBox::Ok, 0);
 }
 
 void GraphWidgetUi::GraphWidget::importFromFile()
 {
-    serializer.importFromJson();
+    Serialize<std::string>::getInstance().importFromJson();
     graph.clear();
-    std::list<std::string> vertices = serializer.getVertices();
-    std::vector<std::pair<std::string, std::string>> edges = serializer.getEdges();
+    std::list<std::string> vertices = Serialize<std::string>::getInstance().getVertices();
+    std::vector<std::pair<std::string, std::string>> edges = Serialize<std::string>::getInstance().getEdges();
     for (std::string it: vertices) {
         graph.insert_vertex(it);
     }
