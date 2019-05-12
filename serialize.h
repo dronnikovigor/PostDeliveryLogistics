@@ -36,6 +36,7 @@ private:
 template <class T>
 Serializer::Serialize<T>::Serialize()
 {
+    importFromJson();
 }
 
 template <class T>

@@ -27,7 +27,6 @@ public:
     void deleteEdge(const QString &from, const QString &to);
     void itemMoved();
     void drawGraph();
-    std::list<std::string> getVertices();
 
 public slots:
     void exportToFile();

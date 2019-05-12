@@ -10,6 +10,10 @@
 #include <QListWidget>
 #include <QListWidgetItem>
 
+#include "serialize.h"
+
+using Serializer::Serialize;
+
 namespace Ui {
 
 class UserScreen : public QObject
@@ -21,6 +25,7 @@ public:
 private slots:
     void handleFromSelectChanged(QListWidgetItem *item);
     void handleToSelectChanged(QListWidgetItem *item);
+    void getDirections();
 
 signals:
     void logout();

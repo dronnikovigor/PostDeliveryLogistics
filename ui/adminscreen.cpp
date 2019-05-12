@@ -100,7 +100,7 @@ void Ui::AdminScreen::addNewEdge()
     toCityList->setFont(font);
     selectBtn->setFont(font);
 
-    std::list<std::string> stdListString = graphWidget->getVertices();
+    std::list<std::string> stdListString = Serialize<std::string>::getInstance().getVertices();
     for (std::string it: stdListString) {
         fromCityList->addItem(QString::fromStdString(it));
         toCityList->addItem(QString::fromStdString(it));
@@ -139,7 +139,7 @@ void Ui::AdminScreen::deleteEdge()
     toCityList->setFont(font);
     selectBtn->setFont(font);
 
-    std::list<std::string> stdListString = graphWidget->getVertices();
+    std::list<std::string> stdListString = Serialize<std::string>::getInstance().getVertices();
     for (std::string it: stdListString) {
         fromCityList->addItem(QString::fromStdString(it));
         toCityList->addItem(QString::fromStdString(it));
@@ -174,7 +174,7 @@ void Ui::AdminScreen::deleteVertex()
     vertexList->setFont(font);
     selectBtn->setFont(font);
 
-    std::list<std::string> stdListString = graphWidget->getVertices();
+    std::list<std::string> stdListString = Serialize<std::string>::getInstance().getVertices();
     for (std::string it: stdListString) {
         vertexList->addItem(QString::fromStdString(it));
     }

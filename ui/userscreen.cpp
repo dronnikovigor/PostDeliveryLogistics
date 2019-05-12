@@ -19,6 +19,9 @@ Ui::UserScreen::UserScreen(QWidget *widget)
     logoutBtn->setFixedHeight(45);
     getDirBtn->setFixedHeight(45);
 
+    fromSelect->setReadOnly(true);
+    toSelect->setReadOnly(true);
+
     QFont font = fromCityList->font();
     font.setPointSize(12);
     fromCityList->setFont(font);
@@ -47,12 +50,24 @@ Ui::UserScreen::UserScreen(QWidget *widget)
     gridLayout->addWidget(resultLabel, 0, 4);
     gridLayout->addWidget(resultList, 1, 4, 5, 1);
 
-    ///TODO: connect btns to func's here
+    std::list<std::string> stdListString = Serialize<std::string>::getInstance().getVertices();
+    for (std::string it: stdListString) {
+        fromCityList->addItem(QString::fromStdString(it));
+        toCityList->addItem(QString::fromStdString(it));
+    }
+
     connect(logoutBtn, SIGNAL(clicked()), this, SIGNAL(logout()));
+    connect(getDirBtn, SIGNAL(clicked()), this, SLOT(getDirections()));
     connect(fromCityList, &QListWidget::itemClicked, this , &UserScreen::handleFromSelectChanged);
     connect(toCityList, &QListWidget::itemClicked, this , &UserScreen::handleToSelectChanged);
 
     widget->setLayout(gridLayout);
+}
+
+void Ui::UserScreen::getDirections()
+{
+    //here put request for algorithm
+    resultList->addItem("MAGIK NOT WORKING YET! WAIT FOR IT.");
 }
 
 void Ui::UserScreen::handleFromSelectChanged(QListWidgetItem *item)

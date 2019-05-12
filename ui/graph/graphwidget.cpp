@@ -21,8 +21,7 @@ GraphWidgetUi::GraphWidget::GraphWidget(QWidget *parent)
     adjustSize();
     setMinimumSize(400, 400);
 
-    importFromFile();
-    drawGraph();
+    importFromFileAndDraw();
 }
 
 void GraphWidgetUi::GraphWidget::addNewVertex(const QString &newVertex)
@@ -51,11 +50,6 @@ void GraphWidgetUi::GraphWidget::deleteVertex(const QString &vertex)
     graph.remove_vertex(vertex.toStdString());
     Serialize<std::string>::getInstance().exportToJson(graph);
     drawGraph();
-}
-
-std::list<std::string> GraphWidgetUi::GraphWidget::getVertices()
-{
-    return Serialize<std::string>::getInstance().getVertices();
 }
 
 void GraphWidgetUi::GraphWidget::drawGraph()
