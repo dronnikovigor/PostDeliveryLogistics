@@ -4,6 +4,7 @@
 #include <iostream>
 #include <vector>
 #include <list>
+#include <QString>
 
 namespace GraphContainer
 {
@@ -19,10 +20,12 @@ public :
     void remove_vertex(T key);
     void insert_vertex_pair(T key1, T key2);
     void remove_vertex_pair(T key1, T key2);
+    std::list<T> search_dist(T key1, T key2);
     void print_graph();
     void clear();
 
     class Vertex;
+    static int vertCount;
 
     struct Edge
     {
@@ -47,12 +50,13 @@ public :
     public:
         Vertex(T key) :
             m_Key(key)
-        {}
+        { setNumber(++vertCount); }
         void connect_edge(Vertex *adjacent);
         void disconnect_edge(Graph<T>::Vertex *adjacent);
         const T key() const {return m_Key;}
+        int getNumber() {return number;}
+        void setNumber(int n) {number = n;}
         const std::list<Edge> &edges() const {return m_Edges;}
-
         bool operator< (const Vertex &other) const {
             return key() < other.key();
         }
@@ -64,6 +68,7 @@ public :
     private:
         std::list<Edge> m_Edges;
         T m_Key;
+        int number;
         bool contains_edge_to_vertex(const T key);
     };
 
@@ -83,8 +88,23 @@ public:
 private:
     vertices_type m_Vertices;
     Vertex *contains_vertex(const T key);
+    bool contains_vertex_in_list(std::list<T> list, const T key);
+    T getVertexKey(int position)
+    {
+        typename std::list<Vertex>::iterator find_it = m_Vertices.begin();
+        for(; find_it != m_Vertices.end(); ++find_it) {
+            if (find_it->getNumber() == position) {
+                return find_it->key();
+            }
+        }
+        return NULL;
+    }
+    std::list<T> vertices;
 };
 }
+
+template <class T>
+int GraphContainer::Graph<T>::vertCount = -1;
 
 template <class T>
 GraphContainer::Graph<T>::Graph()
@@ -177,7 +197,7 @@ void GraphContainer::Graph<T>::insert_vertex_pair(T key1, T key2)
 
 #ifndef NDEBUG
         std::cout <<"Inserting pair: " <<  insert1->key() << " -- > " << insert2->key() <<
-                     std::endl;
+                    std::endl;
 #endif
         //insert2->connect_edge(insert1);
     } else {
@@ -359,6 +379,66 @@ template <typename T>
 void GraphContainer::Graph<T>::clear()
 {
     m_Vertices.clear();
+}
+
+template <typename T>
+typename std::list<T> GraphContainer::Graph<T>::search_dist(T key1, T key2)
+{
+    Graph<T>::Vertex *from = contains_vertex(key1);
+    Graph<T>::Vertex *to = contains_vertex(key2);
+    vertices.clear();
+    int N = m_Vertices.size();
+
+    std::vector < std::vector <int> > b(N, std::vector <int> (N) );
+    std::vector < std::vector <int> > c(N, std::vector <int> (N) );
+
+    for(int i=0;i<N;i++)
+        for(int j=0;j<N;j++) {b[i][j]=999999;b[i][i]=999999;c[i][j]=-1;}
+    typename std::list<Vertex>::iterator print_it = m_Vertices.begin();
+    for(; print_it != m_Vertices.end(); ++print_it) {
+        typename std::list<Edge>::const_iterator edge_it = print_it->edges().begin();
+        for(; edge_it != print_it->edges().end(); ++edge_it) {
+            b[print_it->getNumber()][edge_it->m_Edge->getNumber()] = 1;
+        }
+
+    }
+    for(int k=0;k<N;k++)
+        for(int i=0;i<N;i++)
+            for(int j=0;j<N;j++){
+                int a=b[i][k]+b[k][j];
+                if(b[i][j]>a)
+                {
+                    c[i][j]=k;
+                    b[i][j]=a;
+                }
+            }
+    int i=from->getNumber(),j=to->getNumber();
+    while(c[i][j]!=-1){
+        vertices.push_front(getVertexKey(c[i][j]));
+        j=c[i][j];
+    }
+    i=from->getNumber(),j=to->getNumber();
+    while(c[i][j]!=-1){
+        if( !contains_vertex_in_list(vertices, getVertexKey(c[i][j]))){
+            vertices.push_back(getVertexKey(c[i][j]));
+        }
+        i=c[i][j];
+    }
+    vertices.push_front(getVertexKey(from->getNumber()));
+    vertices.push_back(getVertexKey(to->getNumber()));
+    return vertices;
+}
+
+template <typename T>
+bool GraphContainer::Graph<T>::contains_vertex_in_list(std::list<T> list, T key)
+{
+    typename std::list<std::string>::iterator find_it = list.begin();
+    for(; find_it != list.end(); ++find_it) {
+        if (find_it->data() == key) {
+            return true;
+        }
+    }
+    return false;
 }
 
 #endif // GRAPH_H

@@ -56,6 +56,15 @@ Ui::UserScreen::UserScreen(QWidget *widget)
         toCityList->addItem(QString::fromStdString(it));
     }
 
+    graph.clear();
+    std::list<std::string> vertices = Serialize<std::string>::getInstance().getVertices();
+    std::vector<std::pair<std::string, std::string>> edges = Serialize<std::string>::getInstance().getEdges();
+    for (std::string it: vertices) {
+        graph.insert_vertex(it);
+    }
+    for (std::pair<std::string, std::string> it: edges) {
+        graph.insert_vertex_pair(it.first, it.second);
+    }
     connect(logoutBtn, SIGNAL(clicked()), this, SIGNAL(logout()));
     connect(getDirBtn, SIGNAL(clicked()), this, SLOT(getDirections()));
     connect(fromCityList, &QListWidget::itemClicked, this , &UserScreen::handleFromSelectChanged);
@@ -66,8 +75,16 @@ Ui::UserScreen::UserScreen(QWidget *widget)
 
 void Ui::UserScreen::getDirections()
 {
-    //here put request for algorithm
-    resultList->addItem("MAGIK NOT WORKING YET! WAIT FOR IT.");
+    resultList->clear();
+    if (!fromSelect->text().isEmpty() && !fromSelect->text().isEmpty()) {
+        std::list<std::string> result = graph.search_dist(fromSelect->text().toStdString(), toSelect->text().toStdString());
+        typename std::list<std::string>::iterator print_it = result.begin();
+        for(; print_it != result.end(); ++print_it) {
+            resultList->addItem(QString::fromStdString(*print_it));
+        }
+    } else {
+        resultList->addItem("Choose cities");
+    }
 }
 
 void Ui::UserScreen::handleFromSelectChanged(QListWidgetItem *item)
