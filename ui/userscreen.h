@@ -8,6 +8,7 @@
 #include <QLabel>
 #include <QLineEdit>
 #include <QListWidget>
+#include <QStringList>
 #include <QListWidgetItem>
 
 #include "serialize.h"
@@ -36,6 +37,7 @@ private:
     QListWidget *resultList;
     QLineEdit *fromSelect;
     QLineEdit *toSelect;
+    Graph<std::string> graph;
 };
 
 }
