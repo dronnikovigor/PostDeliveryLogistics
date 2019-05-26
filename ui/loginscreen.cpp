@@ -1,6 +1,7 @@
 #include "loginscreen.h"
 
 Ui::LoginScreen::LoginScreen(QWidget *widget)
+    : Ui::Screen(widget)
 {
     QGridLayout *gridLayout = new QGridLayout();
     QVBoxLayout *vertLayout = new QVBoxLayout();

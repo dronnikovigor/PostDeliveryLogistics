@@ -12,12 +12,13 @@
 #include <QListWidgetItem>
 
 #include "serialize.h"
+#include "screen.h"
 
 using Serializer::Serialize;
 
 namespace Ui {
 
-class UserScreen : public QObject
+class UserScreen : public Ui::Screen
 {
     Q_OBJECT
 public:

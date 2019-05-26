@@ -34,7 +34,9 @@ SOURCES += \
     ui/userscreen.cpp \
     ui/graph/edge.cpp \
     ui/graph/node.cpp \
-    ui/graph/graphwidget.cpp
+    ui/graph/graphwidget.cpp \
+    ui/screen.cpp \
+    ui/manipulator.cpp
 
 HEADERS += \
     graph.h \
@@ -48,7 +50,9 @@ HEADERS += \
     ui/userscreen.h \
     ui/graph/edge.h \
     ui/graph/node.h \
-    ui/graph/graphwidget.h
+    ui/graph/graphwidget.h \
+    ui/screen.h \
+    ui/manipulator.h
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin

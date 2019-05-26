@@ -14,14 +14,15 @@
 #include <QLineEdit>
 
 #include "ui/graph/graphwidget.h"
+#include "screen.h"
 
 namespace Ui {
 
-class AdminScreen : public QObject
+class AdminScreen : public Ui::Screen
 {
     Q_OBJECT
 public:
-    AdminScreen(QWidget *widget);
+    explicit AdminScreen(QWidget *widget);
 
 private:
     GraphWidgetUi::GraphWidget *graphWidget;
