@@ -8,6 +8,7 @@
 #include "ui/userscreen.h"
 #include "ui/helpwindow.h"
 #include "credentials.h"
+#include "ui/manipulator.h"
 
 namespace Ui {
 
@@ -20,13 +21,12 @@ public:
     ~MainWindow();
 
 private slots:
-    void showStartScreen(bool adminRights);
+    void showStartScreen(const QString &login, const QString &pass);
     void showLoginScreen();
-
-    void checkCredentials(const QString &login, const QString &pass);
 
 private:
     QWidget *widget;
+    Manip::Manipulator *manipulator;
 };
 
 }

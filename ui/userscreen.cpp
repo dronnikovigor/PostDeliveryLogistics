@@ -1,6 +1,7 @@
 #include "userscreen.h"
 
 Ui::UserScreen::UserScreen(QWidget *widget)
+    : Ui::Screen(widget)
 {
     QGridLayout *gridLayout = new QGridLayout();
     fromCityList = new QListWidget();

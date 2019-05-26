@@ -3,6 +3,7 @@
 Ui::MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
 {
+    manipulator= new Manip::Manipulator();
     widget = new QWidget();
     widget->setWindowTitle("Post Delivery Logistics");
     widget->setFixedSize(800,512);
@@ -10,53 +11,20 @@ Ui::MainWindow::MainWindow(QWidget *parent)
 }
 
 void Ui::MainWindow::showLoginScreen() {
-    if (widget != nullptr) {
-        delete widget;
-        widget = nullptr;
-    }
-    widget = new QWidget();
-
-    LoginScreen *loginScreen = new LoginScreen(widget);
-    connect(loginScreen, SIGNAL(checkCredentialsSignal(QString, QString)), this, SLOT(checkCredentials(QString, QString)));
-
+    widget = manipulator->buildWidget(widget);
+    connect(manipulator->showScreen(widget), SIGNAL(checkCredentialsSignal(QString, QString)), this, SLOT(showStartScreen(QString, QString)));
     this->setCentralWidget(widget);
 }
 
-void Ui::MainWindow::showStartScreen(bool adminRights) {
-    if (widget != nullptr) {
-        delete widget;
-        widget = nullptr;
-    }
-    widget = new QWidget();
-
-    if (adminRights){
-        AdminScreen *adminScreen = new AdminScreen(widget);
-        connect(adminScreen, SIGNAL(logout()), this, SLOT(showLoginScreen()));
-    }
-    else {
-        UserScreen *userScreen = new UserScreen(widget);
-        connect(userScreen, SIGNAL(logout()), this, SLOT(showLoginScreen()));
-    }
-
-    this->setCentralWidget(widget);
-}
-
-void Ui::MainWindow::checkCredentials(const QString &login, const QString &pass)
-{
+void Ui::MainWindow::showStartScreen(const QString &login, const QString &pass) {
     Credentials credentials(login, pass);
-    switch (credentials.checkCredentials()) {
-    case 0: {
-        showStartScreen(false);
-        break;
+    if (credentials.checkCredentials()==-1){
+        return;
     }
-    case 1: {
-        showStartScreen(true);
-        break;
-    }
-    case -1: {
-        break;
-    }
-    }
+    widget = manipulator->buildWidget(widget);
+    Ui::Screen *screen = manipulator->showScreen(credentials.checkCredentials(), widget);
+    connect(screen, SIGNAL(logout()), this, SLOT(showLoginScreen()));
+    this->setCentralWidget(widget);
 }
 
 Ui::MainWindow::~MainWindow()

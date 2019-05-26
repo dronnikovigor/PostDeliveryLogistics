@@ -1,6 +1,7 @@
 #include "adminscreen.h"
 
 Ui::AdminScreen::AdminScreen(QWidget *widget)
+    : Ui::Screen(widget)
 {
     graphWidget = new GraphWidgetUi::GraphWidget();
 

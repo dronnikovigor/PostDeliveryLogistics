@@ -8,10 +8,11 @@
 #include <QVBoxLayout>
 #include <QLabel>
 #include <QTextEdit>
+#include "screen.h"
 
 namespace Ui {
 
-class LoginScreen: public QObject
+class LoginScreen: public Ui::Screen
 {
     Q_OBJECT
 public:
