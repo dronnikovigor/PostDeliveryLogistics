@@ -10,6 +10,7 @@
 
 #include "singleton.h"
 #include "graph.h"
+#include "exceptions.h"
 
 using GraphContainer::Graph;
 
@@ -42,6 +43,7 @@ Serializer::Serialize<T>::Serialize()
 template <class T>
 void Serializer::Serialize<T>::exportToJson(GraphContainer::Graph<T> graph)
 {
+
     edges.clear();
     vertices.clear();
     typename std::list<typename Graph<T>::Vertex>::iterator graph_it = graph.begin();
@@ -80,7 +82,7 @@ void Serializer::Serialize<T>::exportToJson(GraphContainer::Graph<T> graph)
     if (save_file.exists())
         save_file.remove();
     if (!save_file.open(QIODevice::WriteOnly)) {
-        //throw exception
+        throw FileException(path.toStdString());
     }
     save_file.write(json_string.toLocal8Bit());
     save_file.close();
@@ -93,7 +95,7 @@ void Serializer::Serialize<T>::importFromJson()
     QString json;
     QFile file(path);
     if (!file.open(QIODevice::ReadOnly)) {
-        //throw exception
+       throw FileException(path.toStdString());
     }
     json = file.readAll();
     file.close();

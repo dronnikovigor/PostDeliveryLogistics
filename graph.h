@@ -6,6 +6,8 @@
 #include <list>
 #include <QString>
 
+#include "exceptions.h"
+
 namespace GraphContainer
 {
 
@@ -162,8 +164,7 @@ void GraphContainer::Graph<T>::insert_vertex_pair(T key1, T key2)
    * Check if vertices are simular
    */
     if (key1 == key2) {
-        //throw std::runtime_error("Simular Vertices!");
-        return;
+        throw SimularVertexException(key1);
     }
     /*!
    * Check if vertices already in graph
@@ -268,7 +269,7 @@ void GraphContainer::Graph<T>::remove_vertex_pair(T key1, T key2)
    */
     if (key1 == key2) {
         //throw std::runtime_error("Simular Vertices!");
-        return;
+        throw SimularVertexException(key1);
     }
     /*!
    * Check if vertices already in graph
@@ -276,11 +277,16 @@ void GraphContainer::Graph<T>::remove_vertex_pair(T key1, T key2)
     Graph<T>::Vertex *vertex1 = contains_vertex(key1);
     Graph<T>::Vertex *vertex2 = contains_vertex(key2);
 
-#ifndef NDEBUG
-    assert(vertex1 != NULL && "Failed to find pair (first vertex not exists)");
-    assert(vertex2 != NULL && "Failed to find pair (second vertex not exists)");
-#endif
-
+//#ifndef NDEBUG
+//    assert(vertex1 != NULL && "Failed to find pair (first vertex not exists)");
+//    assert(vertex2 != NULL && "Failed to find pair (second vertex not exists)");
+//#endif
+    if(vertex1 != NULL) {
+        throw VertexNotFoundException(vertex1->getNumber());
+    }
+    if(vertex2 != NULL) {
+        throw VertexNotFoundException(vertex2->getNumber());
+    }
     /*!
    * At this point we should have a Vertex to insert an edge on
    * if not throw an error.
