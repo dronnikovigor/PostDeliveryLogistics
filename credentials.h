@@ -1,7 +1,9 @@
 #ifndef CREDENTIALS_H
 #define CREDENTIALS_H
 
+#include <iostream>
 #include <QString>
+#include "ui/manipulator.h"
 
 class Credentials
 {
@@ -13,5 +15,4 @@ private:
     const QString login;
     const QString pass;
 };
-
 #endif // CREDENTIALS_H

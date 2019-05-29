@@ -29,5 +29,27 @@ QWidget *Manip::Manipulator::buildWidget(QWidget *widget){
         delete widget;
         widget = nullptr;
     }
+
     return new QWidget();
 }
+
+std::ostream &Manip::writeCredentials(std::ostream& stream, int grants)
+{
+    switch (grants) {
+    case (0): {
+        stream << "Welcome, user!"<<std::endl;
+        return stream;
+    }
+    case (1): {
+        stream << "Welcome, admin!"<<std::endl;
+        return stream;
+    }
+    }
+    return stream;
+}
+
+Manip::OMANIP<int> Manip::Manipulator::grants(int grants)
+{
+    return Manip::OMANIP<int>(writeCredentials,grants);
+}
+
