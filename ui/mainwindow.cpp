@@ -3,7 +3,6 @@
 Ui::MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
 {
-    manipulator= new Manip::Manipulator();
     widget = new QWidget();
     widget->setWindowTitle("Post Delivery Logistics");
     widget->setFixedSize(800,512);
@@ -11,18 +10,19 @@ Ui::MainWindow::MainWindow(QWidget *parent)
 }
 
 void Ui::MainWindow::showLoginScreen() {
-    widget = manipulator->buildWidget(widget);
-    connect(manipulator->showScreen(widget), SIGNAL(checkCredentialsSignal(QString, QString)), this, SLOT(showStartScreen(QString, QString)));
+    widget = Manip::Manipulator::getInstance().buildWidget(widget);
+    connect(Manip::Manipulator::getInstance().showScreen(widget), SIGNAL(checkCredentialsSignal(QString, QString)), this, SLOT(showStartScreen(QString, QString)));
     this->setCentralWidget(widget);
 }
 
 void Ui::MainWindow::showStartScreen(const QString &login, const QString &pass) {
     Credentials credentials(login, pass);
-    if (credentials.checkCredentials()==-1){
+    qint8 grants = credentials.checkCredentials();
+    if (grants == -1){
         return;
     }
-    widget = manipulator->buildWidget(widget);
-    Ui::Screen *screen = manipulator->showScreen(credentials.checkCredentials(), widget);
+    widget = Manip::Manipulator::getInstance().buildWidget(widget);
+    Ui::Screen *screen = Manip::Manipulator::getInstance().showScreen(grants, widget);
     connect(screen, SIGNAL(logout()), this, SLOT(showLoginScreen()));
     this->setCentralWidget(widget);
 }

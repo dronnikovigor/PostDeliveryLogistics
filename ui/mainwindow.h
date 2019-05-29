@@ -26,7 +26,6 @@ private slots:
 
 private:
     QWidget *widget;
-    Manip::Manipulator *manipulator;
 };
 
 }
