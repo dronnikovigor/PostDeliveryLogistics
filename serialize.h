@@ -94,9 +94,10 @@ void Serializer::Serialize<T>::importFromJson()
     QString path = "json.json";
     QString json;
     QFile file(path);
-    if (!file.open(QIODevice::ReadOnly)) {
-       throw FileException(path.toStdString());
-    }
+    if (file.exists())
+        if (!file.open(QIODevice::ReadOnly)) {
+           throw FileException(path.toStdString());
+        }
     json = file.readAll();
     file.close();
     QJsonDocument jsonResponse = QJsonDocument::fromJson(json.toUtf8());

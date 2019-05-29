@@ -20,7 +20,7 @@ class FileException: public Exception {
 private:
    std::string file_name;
 public:
-    FileException(std::string file_name): Exception("File is opened:" + file_name) {}
+    FileException(std::string file_name): Exception("File is not opened:" + file_name) {}
 };
 
 
