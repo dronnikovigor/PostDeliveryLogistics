@@ -13,46 +13,6 @@ int main(int argc, char *argv[])
     MainWindow w;
     w.show();
 
-
-    //Graph example usage
-    /*std::vector<std::pair<int, int> > graph_vect;
-    for (int i = 0; i < 100; i++) {
-        graph_vect.push_back(std::make_pair(rand()%20, rand()%20));
-    }*/
-    /*Graph<int> test_graph;
-
-    test_graph.insert_vertex_pair(1,200);
-    test_graph.insert_vertex_pair(1,5);
-    test_graph.insert_vertex_pair(1,6);
-    test_graph.insert_vertex_pair(10,1);
-    test_graph.insert_vertex_pair(11,1);
-    test_graph.insert_vertex_pair(40,200);
-    test_graph.insert_vertex_pair(50,200);
-
-    test_graph.print_graph();
-    Serializer::Serialize<int> *serialize = new Serializer::Serialize<int>();
-    serialize->exportToJson(test_graph);
-    serialize->importFromJson();
-    Graph<int> new_graph(serialize->getEdges());
-    new_graph.print_graph();
-    /*
-    test_graph.remove_vertex(1);
-
-    test_graph.print_graph();
-
-    /*std::cout << "External iterator example: " << std::endl;
-    typename std::list<Graph<int>::Vertex>::iterator print_it = test_graph.begin();
-    for(; print_it != test_graph.end(); ++print_it) {
-        std::cout << print_it->key();
-        typename std::list<Graph<int>::Edge>::const_iterator edge_it = print_it->edges().begin();
-        for(; edge_it != print_it->edges().end(); ++edge_it) {
-            std::cout << "-->" << edge_it->m_Edge->key();
-        }
-        std::cout << std::endl;
-    }
-    */
-    //
-
     return a.exec();
 }
 

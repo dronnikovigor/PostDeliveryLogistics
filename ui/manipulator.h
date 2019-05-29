@@ -13,7 +13,8 @@
 
 namespace Manip {
 
-template<class T> class OMANIP {
+template<class T>
+class OMANIP {
     T i;
     std::ostream& (*f) (std::ostream&,T);
 public:
