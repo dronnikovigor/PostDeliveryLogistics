@@ -6,6 +6,8 @@
 #include <list>
 #include <QString>
 
+#include "iterator.h"
+#include "allocator.h"
 #include "exceptions.h"
 
 namespace GraphContainer
@@ -16,13 +18,13 @@ class Graph
 {
 public :
     Graph();
-    Graph(const std::vector<std::pair<T, T> > &vertices);
+    Graph(const std::vector<std::pair<T, T>,Alloc::Allocator<std::pair<T, T>>> &vertices);
     ~Graph(){}
     void insert_vertex(T key);
     void remove_vertex(T key);
     void insert_vertex_pair(T key1, T key2);
     void remove_vertex_pair(T key1, T key2);
-    std::list<T> search_dist(T key1, T key2);
+    std::list<T,Alloc::Allocator<T>> search_dist(T key1, T key2);
     void print_graph();
     void clear();
 
@@ -58,7 +60,7 @@ public :
         const T key() const {return m_Key;}
         int getNumber() {return number;}
         void setNumber(int n) {number = n;}
-        const std::list<Edge> &edges() const {return m_Edges;}
+        const std::list<Edge,Alloc::Allocator<Edge>> &edges() const {return m_Edges;}
         bool operator< (const Vertex &other) const {
             return key() < other.key();
         }
@@ -68,14 +70,14 @@ public :
         }
 
     private:
-        std::list<Edge> m_Edges;
+        std::list<Edge,Alloc::Allocator<Edge>> m_Edges;
         T m_Key;
         int number;
         bool contains_edge_to_vertex(const T key);
     };
 
 private:
-    using vertices_type = std::list<Vertex>;
+    using vertices_type = std::list<Vertex,Alloc::Allocator<Vertex>>;
 
 public:
     using iterator = typename vertices_type::iterator;
@@ -90,10 +92,10 @@ public:
 private:
     vertices_type m_Vertices;
     Vertex *contains_vertex(const T key);
-    bool contains_vertex_in_list(std::list<T> list, const T key);
+    bool contains_vertex_in_list(std::list<T,Alloc::Allocator<T>> list, const T key);
     T getVertexKey(int position)
     {
-        typename std::list<Vertex>::iterator find_it = m_Vertices.begin();
+        typename std::list<Vertex,Alloc::Allocator<Vertex>>::iterator find_it = m_Vertices.begin();
         for(; find_it != m_Vertices.end(); ++find_it) {
             if (find_it->getNumber() == position) {
                 return find_it->key();
@@ -101,7 +103,7 @@ private:
         }
         return NULL;
     }
-    std::list<T> vertices;
+    std::list<T,Alloc::Allocator<T>> vertices;
 };
 }
 
@@ -114,9 +116,9 @@ GraphContainer::Graph<T>::Graph()
 }
 
 template <class T>
-GraphContainer::Graph<T>::Graph(const std::vector<std::pair<T, T> > &vertices_relation)
+GraphContainer::Graph<T>::Graph(const std::vector<std::pair<T, T>,Alloc::Allocator<std::pair<T, T>>> &vertices_relation)
 {
-    typename std::vector<std::pair<T, T> >::const_iterator insert_it = vertices_relation.begin();
+    typename std::vector<std::pair<T, T>,Alloc::Allocator<std::pair<T,T>>>::const_iterator insert_it = vertices_relation.begin();
     for(; insert_it != vertices_relation.end(); ++insert_it) {
         insert_vertex_pair(insert_it->first, insert_it->second);
     }
@@ -231,16 +233,16 @@ void GraphContainer::Graph<T>::remove_vertex(T key)
         /*!
          * Removing edges from vertex
          */
-        typename std::list<Edge>::const_iterator edge_it = vertex->edges().begin();
+        typename std::list<Edge,Alloc::Allocator<Edge>>::const_iterator edge_it = vertex->edges().begin();
         for(; edge_it != vertex->edges().end(); ++edge_it) {
             remove_vertex_pair(vertex->key(), edge_it->m_Edge->key());
         }
         /*!
          * Removing edges to vertex
          */
-        typename std::list<Vertex>::iterator vert_it = m_Vertices.begin();
+        typename std::list<Vertex,Alloc::Allocator<Vertex>>::iterator vert_it = m_Vertices.begin();
         for(; vert_it != m_Vertices.end(); ++vert_it) {
-            typename std::list<Edge>::const_iterator edge_it = vert_it->edges().begin();
+            typename std::list<Edge,Alloc::Allocator<Edge>>::const_iterator edge_it = vert_it->edges().begin();
             for(; edge_it != vert_it->edges().end(); ++edge_it) {
                 if (edge_it->m_Edge->key() == vertex->key()) {
                     remove_vertex_pair(vert_it->key(), vertex->key());
@@ -308,7 +310,7 @@ void GraphContainer::Graph<T>::remove_vertex_pair(T key1, T key2)
 template <typename T>
 typename GraphContainer::Graph<T>::Vertex *GraphContainer::Graph<T>::contains_vertex(T key)
 {
-    typename std::list<Vertex >::iterator find_it = m_Vertices.begin();
+    typename std::list<Vertex,Alloc::Allocator<Vertex>>::iterator find_it = m_Vertices.begin();
     for(; find_it != m_Vertices.end(); ++find_it) {
         if (find_it->key() == key) {
             return &(*find_it);
@@ -357,7 +359,7 @@ void GraphContainer::Graph<T>::Vertex::disconnect_edge(Graph<T>::Vertex *adjacen
 template <class T>
 bool GraphContainer::Graph<T>::Vertex::contains_edge_to_vertex(const T key)
 {
-    typename std::list<Edge>::iterator find_it = m_Edges.begin();
+    typename std::list<Edge,Alloc::Allocator<Edge>>::iterator find_it = m_Edges.begin();
     for(; find_it != edges().end(); ++find_it) {
         if (find_it->m_Edge->key() == key) {
             return true;
@@ -370,10 +372,10 @@ template <typename T>
 void GraphContainer::Graph<T>::print_graph()
 {
     std::cout << "Graph: " << std::endl;
-    typename std::list<Vertex>::iterator print_it = m_Vertices.begin();
+    typename std::list<Vertex,Alloc::Allocator<Vertex>>::iterator print_it = m_Vertices.begin();
     for(; print_it != m_Vertices.end(); ++print_it) {
         std::cout << print_it->key();
-        typename std::list<Edge>::const_iterator edge_it = print_it->edges().begin();
+        typename std::list<Edge,Alloc::Allocator<Edge>>::const_iterator edge_it = print_it->edges().begin();
         for(; edge_it != print_it->edges().end(); ++edge_it) {
             std::cout << "-->" << edge_it->m_Edge->key();
         }
@@ -388,7 +390,7 @@ void GraphContainer::Graph<T>::clear()
 }
 
 template <typename T>
-typename std::list<T> GraphContainer::Graph<T>::search_dist(T key1, T key2)
+typename std::list<T,Alloc::Allocator<T>> GraphContainer::Graph<T>::search_dist(T key1, T key2)
 {
     Graph<T>::Vertex *from = contains_vertex(key1);
     Graph<T>::Vertex *to = contains_vertex(key2);
@@ -400,9 +402,9 @@ typename std::list<T> GraphContainer::Graph<T>::search_dist(T key1, T key2)
 
     for(int i=0;i<N;i++)
         for(int j=0;j<N;j++) {b[i][j]=999999;b[i][i]=999999;c[i][j]=-1;}
-    typename std::list<Vertex>::iterator print_it = m_Vertices.begin();
+    typename std::list<Vertex,Alloc::Allocator<Vertex>>::iterator print_it = m_Vertices.begin();
     for(; print_it != m_Vertices.end(); ++print_it) {
-        typename std::list<Edge>::const_iterator edge_it = print_it->edges().begin();
+        typename std::list<Edge,Alloc::Allocator<Edge>>::const_iterator edge_it = print_it->edges().begin();
         for(; edge_it != print_it->edges().end(); ++edge_it) {
             b[print_it->getNumber()][edge_it->m_Edge->getNumber()] = 1;
         }
@@ -436,9 +438,9 @@ typename std::list<T> GraphContainer::Graph<T>::search_dist(T key1, T key2)
 }
 
 template <typename T>
-bool GraphContainer::Graph<T>::contains_vertex_in_list(std::list<T> list, T key)
+bool GraphContainer::Graph<T>::contains_vertex_in_list(std::list<T,Alloc::Allocator<T>> list, T key)
 {
-    typename std::list<std::string>::iterator find_it = list.begin();
+    typename std::list<std::string,Alloc::Allocator<std::string>>::iterator find_it = list.begin();
     for(; find_it != list.end(); ++find_it) {
         if (find_it->data() == key) {
             return true;
