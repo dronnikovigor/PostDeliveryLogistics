@@ -53,7 +53,9 @@ HEADERS += \
     ui/graph/graphwidget.h \
     ui/screen.h \
     ui/manipulator.h \
-    exceptions.h
+    exceptions.h \
+    allocator.h \
+    iterator.h
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin

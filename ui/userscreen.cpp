@@ -78,8 +78,8 @@ void Ui::UserScreen::getDirections()
 {
     resultList->clear();
     if (!fromSelect->text().isEmpty() && !fromSelect->text().isEmpty()) {
-        std::list<std::string> result = graph.search_dist(fromSelect->text().toStdString(), toSelect->text().toStdString());
-        typename std::list<std::string>::iterator print_it = result.begin();
+        std::list<std::string,Alloc::Allocator<std::string>> result = graph.search_dist(fromSelect->text().toStdString(), toSelect->text().toStdString());
+        typename std::list<std::string,Alloc::Allocator<std::string>>::iterator print_it = result.begin();
         for(; print_it != result.end(); ++print_it) {
             resultList->addItem(QString::fromStdString(*print_it));
         }
