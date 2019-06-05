@@ -202,7 +202,6 @@ void GraphContainer::Graph<T>::insert_vertex_pair(T key1, T key2)
         std::cout <<"Inserting pair: " <<  insert1->key() << " -- > " << insert2->key() <<
                     std::endl;
 #endif
-        //insert2->connect_edge(insert1);
     } else {
         throw std::runtime_error("Unknown");
     }
@@ -270,7 +269,6 @@ void GraphContainer::Graph<T>::remove_vertex_pair(T key1, T key2)
    * Check if vertices are simular
    */
     if (key1 == key2) {
-        //throw std::runtime_error("Simular Vertices!");
         throw SimularVertexException(key1);
     }
     /*!
@@ -279,14 +277,10 @@ void GraphContainer::Graph<T>::remove_vertex_pair(T key1, T key2)
     Graph<T>::Vertex *vertex1 = contains_vertex(key1);
     Graph<T>::Vertex *vertex2 = contains_vertex(key2);
 
-//#ifndef NDEBUG
-//    assert(vertex1 != NULL && "Failed to find pair (first vertex not exists)");
-//    assert(vertex2 != NULL && "Failed to find pair (second vertex not exists)");
-//#endif
-    if(vertex1 != NULL) {
+    if(vertex1 == NULL) {
         throw VertexNotFoundException(vertex1->getNumber());
     }
-    if(vertex2 != NULL) {
+    if(vertex2 == NULL) {
         throw VertexNotFoundException(vertex2->getNumber());
     }
     /*!
@@ -295,7 +289,6 @@ void GraphContainer::Graph<T>::remove_vertex_pair(T key1, T key2)
    */
     if (vertex1 != NULL && vertex2 != NULL) {
         vertex1->disconnect_edge(vertex2);
-        //insert2->disconnect_edge(insert1);
     } else {
         throw std::runtime_error("Unknown");
     }
@@ -395,13 +388,13 @@ typename std::list<T,Alloc::Allocator<T>> GraphContainer::Graph<T>::search_dist(
     Graph<T>::Vertex *from = contains_vertex(key1);
     Graph<T>::Vertex *to = contains_vertex(key2);
     vertices.clear();
-    int N = m_Vertices.size();
+    unsigned long long N = m_Vertices.size();
 
     std::vector < std::vector <int> > b(N, std::vector <int> (N) );
     std::vector < std::vector <int> > c(N, std::vector <int> (N) );
 
-    for(int i=0;i<N;i++)
-        for(int j=0;j<N;j++) {b[i][j]=999999;b[i][i]=999999;c[i][j]=-1;}
+    for(unsigned long long i=0;i<N;i++)
+        for(unsigned long long j=0;j<N;j++) {b[i][j]=999999;b[i][i]=999999;c[i][j]=-1;}
     typename std::list<Vertex,Alloc::Allocator<Vertex>>::iterator print_it = m_Vertices.begin();
     for(; print_it != m_Vertices.end(); ++print_it) {
         typename std::list<Edge,Alloc::Allocator<Edge>>::const_iterator edge_it = print_it->edges().begin();
@@ -410,9 +403,9 @@ typename std::list<T,Alloc::Allocator<T>> GraphContainer::Graph<T>::search_dist(
         }
 
     }
-    for(int k=0;k<N;k++)
-        for(int i=0;i<N;i++)
-            for(int j=0;j<N;j++){
+    for(unsigned long long k=0;k<N;k++)
+        for(unsigned long long i=0;i<N;i++)
+            for(unsigned long long j=0;j<N;j++){
                 int a=b[i][k]+b[k][j];
                 if(b[i][j]>a)
                 {
@@ -420,17 +413,17 @@ typename std::list<T,Alloc::Allocator<T>> GraphContainer::Graph<T>::search_dist(
                     b[i][j]=a;
                 }
             }
-    int i=from->getNumber(),j=to->getNumber();
+    unsigned long long i=from->getNumber(),j=to->getNumber();
     while(c[i][j]!=-1){
         vertices.push_front(getVertexKey(c[i][j]));
-        j=c[i][j];
+        j=static_cast<unsigned long long>(c[i][j]);
     }
     i=from->getNumber(),j=to->getNumber();
     while(c[i][j]!=-1){
         if( !contains_vertex_in_list(vertices, getVertexKey(c[i][j]))){
             vertices.push_back(getVertexKey(c[i][j]));
         }
-        i=c[i][j];
+        i=static_cast<unsigned long long>(c[i][j]);
     }
     vertices.push_front(getVertexKey(from->getNumber()));
     vertices.push_back(getVertexKey(to->getNumber()));
