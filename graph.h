@@ -113,6 +113,7 @@ int GraphContainer::Graph<T>::vertCount = -1;
 template <class T>
 GraphContainer::Graph<T>::Graph()
 {
+    vertCount = -1;
 }
 
 template <class T>
