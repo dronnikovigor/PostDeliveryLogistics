@@ -53,8 +53,8 @@ void Serializer::Serialize<T>::exportToJson(GraphContainer::Graph<T> graph)
         typename std::list<typename Graph<T>::Edge>::const_iterator edge_it = graph_it->edges().begin();
         for(; edge_it != graph_it->edges().end(); ++edge_it) {
             if(
-                    Invariant<typename Graph<T>>::checkLoop(graph_it->getNumber(),edge_it->m_Edge->getNumber()) &&
-                    Invariant<typename Graph<T>>::checkEdgeDist(graph,edge_it->m_Edge->getNumber())
+                    Invariant<Graph<T>>::checkLoop(graph_it->getNumber(),edge_it->m_Edge->getNumber()) &&
+                    Invariant<Graph<T>>::checkEdgeDist(graph,edge_it->m_Edge->getNumber())
             ) {
                 std::cout << "test ";
                 edges.push_back(std::make_pair(graph_it->key(), edge_it->m_Edge->key()));
